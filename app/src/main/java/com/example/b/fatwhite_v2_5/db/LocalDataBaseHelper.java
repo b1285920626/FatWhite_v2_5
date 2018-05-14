@@ -9,12 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class LocalDataBaseHelper extends SQLiteOpenHelper {
-    public static final String CREATE_WORD = "create table Local_Word("
+    public static final String CREATE_WORD =
+              "create table Local_Word("
             + "id integer primary key autoincrement,"
             + "word text not null,"
             + "soundmark text,"
             + "translation text not null,"
             + "sentence text,"
+            + "flag integer,"
             + "importance integer);";
 
     public LocalDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory cursorFactory, int version){
