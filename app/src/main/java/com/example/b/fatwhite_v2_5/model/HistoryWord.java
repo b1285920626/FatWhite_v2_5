@@ -1,19 +1,27 @@
 package com.example.b.fatwhite_v2_5.model;
 
-public class Word {
+public class HistoryWord {
     private int id;
+    private int word_id;
     private String word;
     private String soundmark;
     private String translation;
     private String sentence;
     private int importance;
-    private int thistimes = 0;
+    private int times;
 
     public int get_id(){
         return id;
     }
     public void set_id(int id){
         this.id = id;
+    }
+
+    public int get_word_id(){
+        return word_id;
+    }
+    public void set_word_id(int word_id){
+        this.word_id = word_id;
     }
 
     public String get_word(){
@@ -49,10 +57,10 @@ public class Word {
         this.importance = importance;
     }
 
-    public int get_thistimes(){
-        return thistimes;
+    public int get_times(){
+        return times;
     }
-    public void set_thistimes(int thistimes){
-        this.thistimes = thistimes;
+    public void set_times(int times){
+        this.times = times;
     }
 }

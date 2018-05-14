@@ -16,8 +16,18 @@ public class LocalDataBaseHelper extends SQLiteOpenHelper {
             + "soundmark text,"
             + "translation text not null,"
             + "sentence text,"
-            + "flag integer,"
             + "importance integer);";
+
+    public static final String CREATE_HISTORYWORD =
+              "create table History_Word("
+            + "id integer primary key autoincrement,"
+            + "word_id integer not null,"
+            + "word text not null,"
+            + "soundmark text,"
+            + "translation text not null,"
+            + "sentence text,"
+            + "importance integer,"
+            + "times integer not null);";
 
     public LocalDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory cursorFactory, int version){
         super(context,name,cursorFactory,version);
@@ -26,16 +36,10 @@ public class LocalDataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db){
         db.execSQL(CREATE_WORD);
+        db.execSQL(CREATE_HISTORYWORD);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-
-    }
-
-//    @Override
-//    public void onOpen(SQLiteDatabase db) {
-//        super.onOpen(db);
-//    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){ }
 
 }

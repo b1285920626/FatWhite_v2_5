@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activitys.LearnActivity"/>
-        <activity android:name=".activitys.SettingActivity"/>
     </application>
 
 </manifest>

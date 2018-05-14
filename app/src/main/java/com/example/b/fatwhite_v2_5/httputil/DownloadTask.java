@@ -17,7 +17,8 @@ import java.util.List;
  */
 //奇怪但好用的线程类
 public class DownloadTask extends AsyncTask<Void,Context,Boolean> {
-    protected String IP = "10.10.8.106";//服务器IP地址
+//    protected String IP = "10.10.8.106";//服务器IP地址
+    protected String IP = "192.168.191.1";//猎豹"192.168.191.1"
     //  protected int port = 9000;//socket实验遗留
     private ProgressDialog pd = null;
     private Context context = null;

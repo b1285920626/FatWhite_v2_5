@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/options_A"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="A.TextView"
             android:textSize="28dp"/>
@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/options_B"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="B.TextView"
             android:textSize="28dp"/>
@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/options_C"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="C.TextView"
             android:textSize="28dp" />
@@ -36,30 +36,17 @@
         <TextView
             android:id="@+id/options_D"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="D.TextView"
             android:textSize="28dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="认识哦" />
-
             <Button
                 android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 android:text="不认识" />
-        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
