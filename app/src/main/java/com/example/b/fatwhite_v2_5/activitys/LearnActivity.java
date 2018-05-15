@@ -1,5 +1,7 @@
 package com.example.b.fatwhite_v2_5.activitys;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
@@ -47,9 +49,9 @@ public class LearnActivity extends FragmentActivity {
             }
         });
         //设置音调
-        tts.setPitch(0.8f);
+        tts.setPitch(0.6f);
         //设置语速
-        tts.setSpeechRate(1.5f);
+        tts.setSpeechRate(1.3f);
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadtodayWords();
@@ -71,7 +73,13 @@ public class LearnActivity extends FragmentActivity {
     }
 
     //显示单词
-    private void show_word(){
+    public void show_nextword(){
+        flag++;
+        if(todayList.size() == 5){
+            //完成一组啦。。。
+             }
+        if((todayList.size() - flag) == 6) flag = 0;
+
         Word word = todayList.get(flag);
         if(word.get_thistimes() == 0||word.get_thistimes() == 2){
             replacefragment(learnOptionsFragment);
@@ -80,11 +88,9 @@ public class LearnActivity extends FragmentActivity {
         }else{
             replacefragment(learnCheckFragment);
             fill_word();
-            learnCheckFragment.setClick_here(this,"点一下看翻译");
         }
 
-        flag++;
-        word.set_thistimes(word.get_thistimes()+1);
+        tts.speak(word.get_word(),TextToSpeech.QUEUE_ADD,null,null);
     }
 
     //填充单词头部
@@ -103,7 +109,6 @@ public class LearnActivity extends FragmentActivity {
     //填充learnoptionsfragment
     public void fill_optionsfragment(){
         Word word = todayList.get(flag);
-//        LearnOptionsFragment learnOptionsFragment = new LearnOptionsFragment();
 
         //产生4个随机数不为i
         Random random = new Random();
@@ -136,7 +141,17 @@ public class LearnActivity extends FragmentActivity {
 
     //显示例句
     public void button_show_sentence_onClick (View view){
-
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
+                .setTitle("例句：")//设置对话框的标题
+                .setMessage(todayList.get(flag).get_sentence())//设置对话框的内容
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {//设置对话框的按钮
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 
     //替换碎片
@@ -153,9 +168,96 @@ public class LearnActivity extends FragmentActivity {
     //单词点击发音
     public void read_current_word (View view){
         TextView current = (TextView) findViewById(R.id.current_word);
-        String test_string = current.getText().toString();
+        String string = current.getText().toString();
+        tts.speak(string,TextToSpeech.QUEUE_ADD,null,null);
+    }
 
-        tts.speak(test_string,TextToSpeech.QUEUE_ADD,null,null);
+    //check碎片的点击
+    public void click_here_onclick(View view){
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
+                .setTitle("翻译：")//设置对话框的标题
+                .setMessage(todayList.get(flag).get_translation())//设置对话框的内容
+                .setNeutralButton("认识哦", new DialogInterface.OnClickListener() {//设置对话框的按钮
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
+                        show_nextword();
+                        //判断满4移出队列并放入历史表
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("记错了", new DialogInterface.OnClickListener() {//设置对话框的按钮
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        todayList.get(flag).set_thistimes(0);
+                        show_nextword();
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
+    }
+
+    //options选项那个碎片上几个东西的点击反应
+    public void options_A_onclick(View view){
+        if(rightoptions == 0) {
+            todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
+            show_nextword();
+        }
+        else {
+            show_translation();
+            todayList.get(flag).set_thistimes(0);
+        }
+    }
+    public void options_B_onclick(View view){
+        if(rightoptions == 1) {
+            todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
+            show_nextword();
+        }
+        else {
+            show_translation();
+            todayList.get(flag).set_thistimes(0);
+        }
+    }
+    public void options_C_onclick(View view){
+        if(rightoptions == 2) {
+            todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
+            show_nextword();
+        }
+        else {
+            show_translation();
+            todayList.get(flag).set_thistimes(0);
+        }
+    }
+    public void options_D_onclick(View view){
+        if(rightoptions == 3) {
+            todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
+            show_nextword();
+        }
+        else {
+            show_translation();
+            todayList.get(flag).set_thistimes(0);
+        }
+    }
+    public void button_dontknow_onclick(View view){
+        show_translation();
+        todayList.get(flag).set_thistimes(0);
+    }
+    //弹窗显示翻译
+    public void show_translation(){
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
+                .setTitle("翻译：")//设置对话框的标题
+                .setMessage(todayList.get(flag).get_translation())//设置对话框的内容
+                .setPositiveButton("下一个", new DialogInterface.OnClickListener() {//设置对话框的按钮
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        show_nextword();
+                        dialog.dismiss();
+                    }
+                }).create();
+       // dialog.setCancelable(false);//点外面不消失
+        dialog.show();
     }
 
     @Override

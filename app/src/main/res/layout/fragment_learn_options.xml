@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="options_A_onclick"
             android:text="@string/options_A"
             android:textSize="28dp"/>
 
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="options_B_onclick"
             android:text="@string/options_B"
             android:textSize="28dp"/>
 
@@ -30,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="options_C_onclick"
             android:text="@string/options_C"
             android:textSize="28dp" />
 
@@ -38,14 +41,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="options_D_onclick"
             android:text="@string/options_D"
             android:textSize="28dp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/button_dontknow"
                 android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="button_dontknow_onclick"
                 android:layout_gravity="center"
                 android:text="不认识" />
     </LinearLayout>

@@ -15,27 +15,15 @@
             android:layout_height="184dp"
             android:gravity="center"
             android:textSize="24dp"
+            android:onClick="click_here_onclick"
             android:text="点这儿看翻译" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
             <Button
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
+                android:id="@+id/button_dontknowit"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
-        </LinearLayout>
+                android:gravity="center"
+                android:onClick="button_dontknow_onclick"
+                android:text="不认识" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
