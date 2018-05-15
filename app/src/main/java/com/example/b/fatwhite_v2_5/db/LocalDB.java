@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.b.fatwhite_v2_5.model.HistoryWord;
+import com.example.b.fatwhite_v2_5.model.Userinfo;
 import com.example.b.fatwhite_v2_5.model.Word;
 
 import java.util.ArrayList;
@@ -49,7 +50,19 @@ public class LocalDB {
         }
     }
 
-    //读取全表？？
+    public void savePrivateWord(Word word){
+        if(word != null){
+            ContentValues values = new ContentValues();
+            values.put("word",word.get_word());
+            values.put("soundmark",word.get_soundmark());
+            values.put("translation",word.get_translation());
+            values.put("sentence",word.get_sentence());
+            values.put("importance",word.get_word());
+            db.insert("Local_PrivateWord",null,values);
+        }
+    }
+
+    //读取Word全表？？
     public List<Word> loadWords (){
         List<Word> list = new ArrayList<Word>();
         Cursor cursor = db.query("Local_Word", null, null, null, null, null, null);//SQLite的查询？？
@@ -89,5 +102,73 @@ public class LocalDB {
 
         newlist.addAll(list.subList(0,25));
         return newlist;
+    }
+
+    public List<HistoryWord> loadhistoryWords (){
+        List<HistoryWord> list = new ArrayList<HistoryWord>();
+        Cursor cursor = db.query("History_Word", null, null, null, null, null, null);//SQLite的查询？？
+        if(cursor.moveToFirst()){
+            do{
+                HistoryWord word = new HistoryWord();
+                word.set_id(cursor.getInt(cursor.getColumnIndex("id")));
+                word.set_word_id(cursor.getInt(cursor.getColumnIndex("word_id")));
+                word.set_word(cursor.getString(cursor.getColumnIndex("word")));
+                word.set_soundmark(cursor.getString(cursor.getColumnIndex("soundmark")));
+                word.set_translation(cursor.getString(cursor.getColumnIndex("translation")));
+                word.set_sentence(cursor.getString(cursor.getColumnIndex("sentence")));
+                word.set_importance(cursor.getInt(cursor.getColumnIndex("importance")));
+                word.set_times(cursor.getInt(cursor.getColumnIndex("times")));
+                word.set_passdays(cursor.getInt(cursor.getColumnIndex("passdays")));
+                list.add(word);
+            }while (cursor.moveToNext());
+        }
+        return list;
+    }
+
+    public void saveHistoryWord(HistoryWord word){
+        if(word != null){
+            ContentValues values = new ContentValues();
+            values.put("word_id",word.get_word_id());
+            values.put("word",word.get_word());
+            values.put("soundmark",word.get_soundmark());
+            values.put("translation",word.get_translation());
+            values.put("sentence",word.get_sentence());
+            values.put("importance",word.get_word());
+            values.put("times",word.get_times());
+            values.put("passdays",word.get_passdays());
+            db.insert("Local_Word",null,values);
+        }
+    }
+
+    public Userinfo load_Userinfo(){
+        Userinfo userinfo = new Userinfo();
+        Cursor cursor = db.query("User_info", null, null, null, null, null, null);
+        if(cursor.moveToFirst()){
+            userinfo.set_User_ID(cursor.getString(cursor.getColumnIndex("User_ID")));
+            userinfo.set_User_name(cursor.getString(cursor.getColumnIndex("User_name")));
+            userinfo.set_User_openid(cursor.getString(cursor.getColumnIndex("User_openid")));
+            userinfo.set_User_age(cursor.getInt(cursor.getColumnIndex("User_age")));
+            userinfo.set_User_level(cursor.getInt(cursor.getColumnIndex("User_level")));
+            userinfo.set_User_rate(cursor.getInt(cursor.getColumnIndex("User_rate")));
+            userinfo.set_passdays(cursor.getInt(cursor.getColumnIndex("passdays")));
+            userinfo.set_lastday(cursor.getString(cursor.getColumnIndex("lastday")));
+        }
+        return userinfo;
+    }
+
+    public void saveUserinfo(Userinfo userinfo){
+        if(userinfo != null){
+            ContentValues values = new ContentValues();
+            String[] args={"1"};
+            values.put("User_ID",userinfo.get_User_ID());
+            values.put("User_name",userinfo.get_User_name());
+            values.put("User_openid",userinfo.get_User_openid());
+            values.put("User_age",userinfo.get_User_age());
+            values.put("User_level",userinfo.get_User_level());
+            values.put("User_rate",userinfo.get_User_rate());
+            values.put("passdays",userinfo.get_passdays());
+            values.put("lastday",userinfo.get_lastday());
+            db.update("User_info",values,"ID=?",args);
+        }
     }
 }

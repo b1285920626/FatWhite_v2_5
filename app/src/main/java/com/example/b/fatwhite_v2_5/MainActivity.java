@@ -10,16 +10,24 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.b.fatwhite_v2_5.activitys.LearnActivity;
+import com.example.b.fatwhite_v2_5.activitys.NewWordActivity;
+import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.HomeFragment;
+import com.example.b.fatwhite_v2_5.fragment.MoreFragment;
 import com.example.b.fatwhite_v2_5.fragment.SettingFragment;
 import com.example.b.fatwhite_v2_5.httputil.DownloadTask;
+import com.example.b.fatwhite_v2_5.model.Userinfo;
 
 public class MainActivity extends AppCompatActivity {
+    Userinfo userinfo;
+    int n;
 
-    private TextView mTextMessage;
+    HomeFragment homeFragment = new HomeFragment();
+    SettingFragment settingFragment = new SettingFragment();
+    MoreFragment moreFragment = new MoreFragment();
+    Fragment current_fragment = new Fragment();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -28,13 +36,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    replacefragment(new HomeFragment());
+                    replacefragment(homeFragment);
                     return true;
                 case R.id.navigation_dashboard:
-                    
+                    replacefragment(moreFragment);
                     return true;
                 case R.id.navigation_notifications:
-                    replacefragment(new SettingFragment());
+                    replacefragment(settingFragment);
                     return true;
             }
             return false;
@@ -46,15 +54,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //初始化时候就用这个碎片了
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction =fragmentManager.beginTransaction();
-        transaction.add(R.id.main_fragment_layout,new HomeFragment());
+        transaction.add(R.id.main_fragment_layout,settingFragment);
+        transaction.add(R.id.main_fragment_layout,moreFragment);
+        transaction.hide(settingFragment);
+        transaction.hide(moreFragment);
+        transaction.add(R.id.main_fragment_layout,homeFragment);
         transaction.commit();
+        current_fragment = homeFragment;
+
+        LocalDB localDB = LocalDB.getInstance(this);
+        n = localDB.loadWords().size() - localDB.loadhistoryWords().size();
+
+        userinfo = new Userinfo();
+        userinfo = localDB.load_Userinfo();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        homeFragment.settextview_3(this,Integer.toString(n));
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        homeFragment.settextview_1(this,Integer.toString(20));
+        homeFragment.settextview_2(this,Integer.toString(20-userinfo.get_User_rate()));
     }
 
     //下载按钮
@@ -69,10 +100,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //按钮生词本
+    public void button_newwordbook_onclick(View view){
+        Intent intent = new Intent(MainActivity.this,NewWordActivity.class);
+        startActivity(intent);
+    }
+
     private void replacefragment(Fragment fragment){
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction =fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_fragment_layout,fragment);
-        transaction.commit();
+        if(current_fragment != fragment){
+            FragmentTransaction transaction =getFragmentManager().beginTransaction();
+            transaction.show(fragment);
+            transaction.hide(current_fragment);
+            current_fragment = fragment;
+            transaction.commit();
+        }
     }
 }

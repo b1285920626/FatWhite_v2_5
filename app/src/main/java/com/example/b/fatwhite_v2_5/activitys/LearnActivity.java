@@ -16,6 +16,8 @@ import com.example.b.fatwhite_v2_5.R;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.LearnCheckFragment;
 import com.example.b.fatwhite_v2_5.fragment.LearnOptionsFragment;
+import com.example.b.fatwhite_v2_5.model.HistoryWord;
+import com.example.b.fatwhite_v2_5.model.Userinfo;
 import com.example.b.fatwhite_v2_5.model.Word;
 
 import java.util.List;
@@ -33,6 +35,8 @@ public class LearnActivity extends FragmentActivity {
     LearnCheckFragment learnCheckFragment = new LearnCheckFragment();
     Fragment current_fragment =new Fragment();
 
+    Userinfo userinfo = new Userinfo();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +53,14 @@ public class LearnActivity extends FragmentActivity {
             }
         });
         //设置音调
-        tts.setPitch(0.6f);
+        tts.setPitch(0.7f);
         //设置语速
-        tts.setSpeechRate(1.3f);
+        tts.setSpeechRate(1.4f);
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadtodayWords();
+        userinfo = localDB.load_Userinfo();
+        userinfo.set_User_rate(0);
 
         FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_layout,learnCheckFragment);
@@ -89,8 +95,6 @@ public class LearnActivity extends FragmentActivity {
             replacefragment(learnCheckFragment);
             fill_word();
         }
-
-        tts.speak(word.get_word(),TextToSpeech.QUEUE_ADD,null,null);
     }
 
     //填充单词头部
@@ -104,6 +108,8 @@ public class LearnActivity extends FragmentActivity {
         current_word.setText(word.get_word());
         current_soundmark.setText(word.get_soundmark());
         ratingBar.setRating(word.get_thistimes());
+
+        tts.speak(word.get_word(),TextToSpeech.QUEUE_ADD,null,null);
     }
 
     //填充learnoptionsfragment
@@ -183,7 +189,11 @@ public class LearnActivity extends FragmentActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
                         show_nextword();
-                        //判断满4移出队列并放入历史表
+                        if(todayList.get(flag).get_thistimes() == 3) {//判断满4移出队列并放入历史表
+                            localDB.saveHistoryWord(word2historyword(todayList.get(flag)));
+                            todayList.remove(flag);
+                            userinfo.set_User_rate(userinfo.get_User_rate()+1);
+                        }
                         dialog.dismiss();
                     }
                 })
@@ -196,6 +206,20 @@ public class LearnActivity extends FragmentActivity {
                     }
                 }).create();
         dialog.show();
+    }
+
+    public HistoryWord word2historyword(Word word){
+        HistoryWord historyWord = new HistoryWord();
+
+        historyWord.set_word_id(word.get_id());
+        historyWord.set_word(word.get_word());
+        historyWord.set_soundmark(word.get_soundmark());
+        historyWord.set_translation(word.get_translation());
+        historyWord.set_sentence(word.get_sentence());
+        historyWord.set_importance(word.get_importance());
+        historyWord.set_times(1);
+        historyWord.set_passdays(1);//记得改下
+        return historyWord;
     }
 
     //options选项那个碎片上几个东西的点击反应
@@ -263,6 +287,7 @@ public class LearnActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        localDB.saveUserinfo(userinfo);
         if (tts != null) {
             tts.shutdown();
         }

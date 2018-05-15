@@ -9,6 +9,7 @@ public class HistoryWord {
     private String sentence;
     private int importance;
     private int times;
+    private int passdays;
 
     public int get_id(){
         return id;
@@ -62,5 +63,12 @@ public class HistoryWord {
     }
     public void set_times(int times){
         this.times = times;
+    }
+
+    public int get_passdays(){
+        return passdays;
+    }
+    public void set_passdays(int passdays){
+        this.passdays = passdays;
     }
 }

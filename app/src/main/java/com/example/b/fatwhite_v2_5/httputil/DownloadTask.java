@@ -17,8 +17,8 @@ import java.util.List;
  */
 //奇怪但好用的线程类
 public class DownloadTask extends AsyncTask<Void,Context,Boolean> {
-    protected String IP = "10.10.8.103";//服务器IP地址
-//    protected String IP = "192.168.191.1";//猎豹"192.168.191.1"
+//    protected String IP = "10.10.8.103";//服务器IP地址
+    protected String IP = "192.168.191.1";//猎豹"192.168.191.1"
     private ProgressDialog pd = null;
     private Context context = null;
     private LocalDB localDB;
@@ -43,20 +43,6 @@ public class DownloadTask extends AsyncTask<Void,Context,Boolean> {
     //动作
     @Override
     protected Boolean doInBackground(Void... params) {
-//之前的socket实验
-//        Socket myserver;
-//        try {
-//            myserver = new Socket(IP,port);
-//                    BufferedReader reader = new BufferedReader(new InputStreamReader(myserver.getInputStream()));
-//                    String str = reader.readLine();
-//                    string = str;
-//                    reader.close();
-//                    myserver.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
         String tablename = "word_cet4";
         String address = "http://"+IP+":8080/FatWhite_Server/DownloadServer?tablename="+tablename;
 
@@ -83,8 +69,6 @@ public class DownloadTask extends AsyncTask<Void,Context,Boolean> {
     //可以用来更新UI，在结束时候执行
     @Override
     protected void onPostExecute(Boolean result) {
-        //       TextView textView = (TextView) FragmentSetting.view.findViewById(R.id.text_need_change);
-        //       textView.setText(string);
         pd.dismiss();
 
         // 在这里提示下载结果
