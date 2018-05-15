@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="options_A">A、%1$s</string>
+    <string name="options_B">B、%1$s</string>
+    <string name="options_C">C、%1$s</string>
+    <string name="options_D">D、%1$s</string>
 </resources>

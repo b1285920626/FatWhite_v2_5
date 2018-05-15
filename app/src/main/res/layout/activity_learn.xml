@@ -25,7 +25,7 @@
             android:textSize="50sp" />
 
         <TextView
-            android:id="@+id/show_soundmark"
+            android:id="@+id/current_soundmark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -67,7 +67,18 @@
             android:layout_height="240dp"></FrameLayout>
 
     </LinearLayout>
-
-
-
+<!--
+    <fragment
+        android:id="@+id/learn_optionsfragment"
+        android:name="com.example.b.fatwhite_v2_5.fragment.LearnOptionsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <fragment
+        android:id="@+id/learn_checkfragment"
+        android:name="com.example.b.fatwhite_v2_5.fragment.LearnCheckFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+-->
 </android.support.constraint.ConstraintLayout>

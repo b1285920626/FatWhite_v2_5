@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="A.TextView"
+            android:text="@string/options_A"
             android:textSize="28dp"/>
 
         <TextView
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="B.TextView"
+            android:text="@string/options_B"
             android:textSize="28dp"/>
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="C.TextView"
+            android:text="@string/options_C"
             android:textSize="28dp" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="D.TextView"
+            android:text="@string/options_D"
             android:textSize="28dp" />
 
             <Button
