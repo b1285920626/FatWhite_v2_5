@@ -62,6 +62,24 @@ public class LocalDB {
         }
     }
 
+    public List<Word> loadPrivateWord (){
+        List<Word> list = new ArrayList<Word>();
+        Cursor cursor = db.query("Local_PrivateWord", null, null, null, null, null, null);//SQLite的查询？？
+        if(cursor.moveToFirst()){
+            do{
+                Word word = new Word();
+                word.set_id(cursor.getInt(cursor.getColumnIndex("id")));
+                word.set_word(cursor.getString(cursor.getColumnIndex("word")));
+                word.set_soundmark(cursor.getString(cursor.getColumnIndex("soundmark")));
+                word.set_translation(cursor.getString(cursor.getColumnIndex("translation")));
+                word.set_sentence(cursor.getString(cursor.getColumnIndex("sentence")));
+                word.set_importance(cursor.getInt(cursor.getColumnIndex("importance")));
+                list.add(word);
+            }while (cursor.moveToNext());
+        }
+        return list;
+    }
+
     //读取Word全表？？
     public List<Word> loadWords (){
         List<Word> list = new ArrayList<Word>();
