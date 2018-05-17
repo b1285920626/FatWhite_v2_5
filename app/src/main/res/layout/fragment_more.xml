@@ -5,11 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_newwordbook"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="button_newwordbook_onclick"
-        android:text="生词本" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_newwordbook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="button_newwordbook_onclick"
+            android:text="生词本" />
+
+        <Button
+            android:id="@+id/button_newexam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="button_newexam_onclick"
+            android:text="做试题" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

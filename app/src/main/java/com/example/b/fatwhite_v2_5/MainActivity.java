@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.b.fatwhite_v2_5.activitys.ExamActivity;
 import com.example.b.fatwhite_v2_5.activitys.LearnActivity;
 import com.example.b.fatwhite_v2_5.activitys.NewWordActivity;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     SettingFragment settingFragment = new SettingFragment();
     MoreFragment moreFragment = new MoreFragment();
     Fragment current_fragment = new Fragment();
+    LocalDB localDB;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -68,24 +72,21 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
         current_fragment = homeFragment;
 
-        LocalDB localDB = LocalDB.getInstance(this);
-        n = localDB.loadWords().size() - localDB.loadhistoryWords().size();
-
-        userinfo = new Userinfo();
-        userinfo = localDB.load_Userinfo();
+        localDB = LocalDB.getInstance(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        homeFragment.settextview_3(this,Integer.toString(n));
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        homeFragment.settextview_3(this,Integer.toString(localDB.loadWords().size() - localDB.loadhistoryWords().size()));
         homeFragment.settextview_1(this,Integer.toString(20));
-        homeFragment.settextview_2(this,Integer.toString(20-userinfo.get_User_rate()));
+        homeFragment.settextview_2(this,Integer.toString(20-localDB.load_Userinfo().get_User_rate()));
     }
 
     //下载按钮
@@ -97,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
     //按钮点击事件//开始学习按钮
     public void Button_BeginLearn_onClick(View view){
         Intent intent = new Intent(MainActivity.this,LearnActivity.class);
+        startActivity(intent);
+    }
+
+    //按钮开始做题
+    public void button_newexam_onclick(View view){
+        Intent intent = new Intent(MainActivity.this, ExamActivity.class);
         startActivity(intent);
     }
 
@@ -115,4 +122,11 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
     }
+
+    //两次返回键退出
+
+    public void onBackPressed(View view){
+        super.onBackPressed();
+    }
+
 }

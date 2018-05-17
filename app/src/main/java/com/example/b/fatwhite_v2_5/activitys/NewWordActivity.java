@@ -63,7 +63,7 @@ public class NewWordActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //我们需要的内容，跳转页面或显示详细信息
-                
+
             }
         });
     }
@@ -96,5 +96,9 @@ public class NewWordActivity extends Activity {
         }catch (Exception e){
             Toast.makeText(NewWordActivity.this,e.toString(),Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void onBackPressed(View view){
+        super.onBackPressed();
     }
 }

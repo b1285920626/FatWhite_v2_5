@@ -189,12 +189,12 @@ public class LearnActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
-                        show_nextword();
                         if(todayList.get(flag).get_thistimes() == 3) {//判断满4移出队列并放入历史表
                             localDB.saveHistoryWord(word2historyword(todayList.get(flag)));
                             todayList.remove(flag);
                             userinfo.set_User_rate(userinfo.get_User_rate()+1);
                         }
+                        show_nextword();
                         dialog.dismiss();
                     }
                 })
@@ -292,5 +292,9 @@ public class LearnActivity extends FragmentActivity {
         if (tts != null) {
             tts.shutdown();
         }
+    }
+
+    public void onBackPressed(View view){
+        super.onBackPressed();
     }
 }
