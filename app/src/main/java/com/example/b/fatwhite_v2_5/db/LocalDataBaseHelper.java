@@ -40,19 +40,14 @@ public class LocalDataBaseHelper extends SQLiteOpenHelper {
             + "times integer not null,"
             + "passdays integer not null);";
 
-    public static final String CREATE_UserInfo =
-              "create table User_info("
+    public static final String CREATE_EXAMTEMP =
+              "create table Exam_temp("
             + "ID integer primary key autoincrement,"
-            + "User_ID text,"
-            + "User_name text,"
-            + "User_openid text,"
-            + "User_age integer,"
-            + "User_level integer,"
-            + "User_rate integer,"
-            + "passdays integer,"
-            + "lastday text);";
-
-
+            + "type integer not null,"
+            + "article text not null,"
+            + "question text not null,"
+            + "rightoption text,"
+            + "paper_id integer);";
 
     public LocalDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory cursorFactory, int version){
         super(context,name,cursorFactory,version);
@@ -62,8 +57,8 @@ public class LocalDataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL(CREATE_WORD);
         db.execSQL(CREATE_HISTORYWORD);
-        db.execSQL(CREATE_UserInfo);
         db.execSQL(CREATE_PRIVATEWORD);
+        db.execSQL(CREATE_EXAMTEMP);
         ContentValues values = new ContentValues();
         values.put("User_ID","");
         values.put("User_name","");

@@ -1,14 +1,17 @@
 package com.example.b.fatwhite_v2_5;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -20,18 +23,15 @@ import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.HomeFragment;
 import com.example.b.fatwhite_v2_5.fragment.MoreFragment;
 import com.example.b.fatwhite_v2_5.fragment.SettingFragment;
-import com.example.b.fatwhite_v2_5.httputil.DownloadTask;
-import com.example.b.fatwhite_v2_5.model.Userinfo;
+import com.example.b.fatwhite_v2_5.httputil.HttpGetUtil;
 
 public class MainActivity extends AppCompatActivity {
-    Userinfo userinfo;
-    int n;
-
     HomeFragment homeFragment = new HomeFragment();
     SettingFragment settingFragment = new SettingFragment();
     MoreFragment moreFragment = new MoreFragment();
     Fragment current_fragment = new Fragment();
     LocalDB localDB;
+    Handler handler = new Handler();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,26 +73,49 @@ public class MainActivity extends AppCompatActivity {
         current_fragment = homeFragment;
 
         localDB = LocalDB.getInstance(this);
+
+        handler=new Handler(){
+            public void handleMessage(Message msg) {
+                switch (msg.arg1){
+                    case 1:
+                        Toast.makeText(MainActivity.this, "下载成功 ", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 0:
+                        Toast.makeText(MainActivity.this, "下载失败 "+msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//    }
 
     @Override
     protected void onResume(){
         super.onResume();
         homeFragment.settextview_3(this,Integer.toString(localDB.loadWords().size() - localDB.loadhistoryWords().size()));
         homeFragment.settextview_1(this,Integer.toString(20));
-        homeFragment.settextview_2(this,Integer.toString(20-localDB.load_Userinfo().get_User_rate()));
+ //改成用那个的。。。
+ //       homeFragment.settextview_2(this,Integer.toString(20-localDB.load_Userinfo().get_User_rate()));
     }
 
     //下载按钮
     public void Button_download_onClick(View view)
     {
-        new DownloadTask(this).execute();
+        ProgressDialog pd = new ProgressDialog(MainActivity.this); // 显示进度对话框
+        pd.setMessage("登录中...");
+        pd.show();
+
+        String tablename = "word_cet4";
+        HttpGetUtil httpGetUtil = new HttpGetUtil();
+        httpGetUtil.initargs(handler,MainActivity.this,tablename,localDB);
+        httpGetUtil.sendHttpGETRequest();
+
+        pd.dismiss();
     }
 
     //按钮点击事件//开始学习按钮

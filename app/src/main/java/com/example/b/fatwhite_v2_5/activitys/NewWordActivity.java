@@ -25,7 +25,6 @@ import java.util.List;
 public class NewWordActivity extends Activity {
     EditText editText_word;
     EditText editText_translation;
-    EditText editText_search;
     AlertDialog dialog;
     LocalDB localDB;
     List<Word> wordList = new ArrayList<Word>();
@@ -62,7 +61,7 @@ public class NewWordActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //我们需要的内容，跳转页面或显示详细信息
+                //我们需要的内容，跳转页面或显示详细信息 列表点击
 
             }
         });

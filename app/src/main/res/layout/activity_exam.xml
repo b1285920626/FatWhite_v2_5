@@ -33,34 +33,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="button_answercard_onclick"
                     android:background="?attr/colorPrimary"
                     android:text="答题卡" />
             </LinearLayout>
 
         </android.support.design.widget.AppBarLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="当前题号："
-                android:gravity="center"
-                android:textSize="24sp"/>
-
-            <TextView
-                android:id="@+id/textView_number"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="0"
-                android:gravity="center"
-                android:textSize="28sp"/>
-        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -69,18 +47,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
 
                 <TextView
                     android:id="@+id/textView_article"
-                    android:layout_width="match_parent"
+                    android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:text="" />
 
                 <TextView
                     android:id="@+id/textView_question"
-                    android:layout_width="match_parent"
+                    android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:text="" />
             </LinearLayout>

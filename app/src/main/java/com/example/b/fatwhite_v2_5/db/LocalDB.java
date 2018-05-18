@@ -157,36 +157,4 @@ public class LocalDB {
             db.insert("Local_Word",null,values);
         }
     }
-
-    public Userinfo load_Userinfo(){
-        Userinfo userinfo = new Userinfo();
-        Cursor cursor = db.query("User_info", null, null, null, null, null, null);
-        if(cursor.moveToFirst()){
-            userinfo.set_User_ID(cursor.getString(cursor.getColumnIndex("User_ID")));
-            userinfo.set_User_name(cursor.getString(cursor.getColumnIndex("User_name")));
-            userinfo.set_User_openid(cursor.getString(cursor.getColumnIndex("User_openid")));
-            userinfo.set_User_age(cursor.getInt(cursor.getColumnIndex("User_age")));
-            userinfo.set_User_level(cursor.getInt(cursor.getColumnIndex("User_level")));
-            userinfo.set_User_rate(cursor.getInt(cursor.getColumnIndex("User_rate")));
-            userinfo.set_passdays(cursor.getInt(cursor.getColumnIndex("passdays")));
-            userinfo.set_lastday(cursor.getString(cursor.getColumnIndex("lastday")));
-        }
-        return userinfo;
-    }
-
-    public void saveUserinfo(Userinfo userinfo){
-        if(userinfo != null){
-            ContentValues values = new ContentValues();
-            String[] args={"1"};
-            values.put("User_ID",userinfo.get_User_ID());
-            values.put("User_name",userinfo.get_User_name());
-            values.put("User_openid",userinfo.get_User_openid());
-            values.put("User_age",userinfo.get_User_age());
-            values.put("User_level",userinfo.get_User_level());
-            values.put("User_rate",userinfo.get_User_rate());
-            values.put("passdays",userinfo.get_passdays());
-            values.put("lastday",userinfo.get_lastday());
-            db.update("User_info",values,"ID=?",args);
-        }
-    }
 }

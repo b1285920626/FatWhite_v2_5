@@ -8,4 +8,7 @@
     <string name="options_B">B、%1$s</string>
     <string name="options_C">C、%1$s</string>
     <string name="options_D">D、%1$s</string>
+
+    <string name="IP_1">"10.10.8.109"</string>
+    <string name="IP_2">"192.168.191.1"</string>
 </resources>

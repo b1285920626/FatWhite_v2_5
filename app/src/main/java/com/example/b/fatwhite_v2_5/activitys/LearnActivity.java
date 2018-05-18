@@ -36,13 +36,12 @@ public class LearnActivity extends FragmentActivity {
     LearnCheckFragment learnCheckFragment = new LearnCheckFragment();
     Fragment current_fragment =new Fragment();
 
-    Userinfo userinfo = new Userinfo();
+//    Userinfo userinfo = new Userinfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
-        Toast.makeText(LearnActivity.this, "按返回键退出", Toast.LENGTH_SHORT).show();
 
         //tts是安卓的语音合成引擎，具体怎么回事我也不知道，反正这么写就对了
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
@@ -60,8 +59,8 @@ public class LearnActivity extends FragmentActivity {
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadtodayWords();
-        userinfo = localDB.load_Userinfo();
-        userinfo.set_User_rate(0);
+//        userinfo = localDB.load_Userinfo();
+ //       userinfo.set_User_rate(0);
 
         FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_layout,learnCheckFragment);
@@ -192,7 +191,7 @@ public class LearnActivity extends FragmentActivity {
                         if(todayList.get(flag).get_thistimes() == 3) {//判断满4移出队列并放入历史表
                             localDB.saveHistoryWord(word2historyword(todayList.get(flag)));
                             todayList.remove(flag);
-                            userinfo.set_User_rate(userinfo.get_User_rate()+1);
+//                            userinfo.set_User_rate(userinfo.get_User_rate()+1);
                         }
                         show_nextword();
                         dialog.dismiss();
@@ -285,14 +284,14 @@ public class LearnActivity extends FragmentActivity {
         dialog.show();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        localDB.saveUserinfo(userinfo);
-        if (tts != null) {
-            tts.shutdown();
-        }
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        localDB.saveUserinfo(userinfo);
+//        if (tts != null) {
+//            tts.shutdown();
+//        }
+//    }
 
     public void onBackPressed(View view){
         super.onBackPressed();
