@@ -2,6 +2,8 @@ package com.example.b.fatwhite_v2_5.activitys;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,12 +31,14 @@ public class NewWordActivity extends Activity {
     LocalDB localDB;
     List<Word> wordList = new ArrayList<Word>();
     String[] data;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newword);
 
+        context = this;
         localDB = new LocalDB(NewWordActivity.this);
         try{
         wordList = localDB.loadPrivateWord();}
@@ -62,6 +66,17 @@ public class NewWordActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //我们需要的内容，跳转页面或显示详细信息 列表点击
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
+                        .setTitle(wordList.get(position).get_word())//设置对话框的标题
+                        .setMessage(wordList.get(position).get_translation())//设置对话框的内容
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {//设置对话框的按钮
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                dialog.show();
 
             }
         });

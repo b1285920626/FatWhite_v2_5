@@ -5,7 +5,7 @@ public class Userinfo {
     private String User_name;
     private String User_openid;
     private int User_age;
-    private int User_level;//cet4?cst6?...
+    private int type;//cet4?cst6?...改成String
     private int User_rate;//今日进度
     private int passdays;//背单词的组数，一组视作一天
     private String lastday;
@@ -32,11 +32,11 @@ public class Userinfo {
         this.User_age = User_age;
     }
 
-    public int get_User_level(){
-        return User_level;
+    public int get_type(){
+        return type;
     }
-    public void set_User_level(int User_level){
-        this.User_level = User_level;
+    public void set_type(int type){
+        this.type = type;
     }
 
     public int get_User_rate(){

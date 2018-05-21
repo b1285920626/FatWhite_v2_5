@@ -23,7 +23,6 @@ import java.net.URLEncoder;
 
 public class HttpGetUtil {
     private Handler handler;
-    private Context context;
     private Message message = new Message();
 
     String address;
@@ -31,7 +30,6 @@ public class HttpGetUtil {
     public void initargs(Handler uiHandle,Context context,String tablename,LocalDB localDB)
     {
         handler = uiHandle;
-        this.context = context;
         this.localDB = localDB;
 
         String IP =context.getString(R.string.IP_1);
