@@ -98,5 +98,15 @@
             android:id="@+id/button_beginlearn"
             android:onClick="Button_BeginLearn_onClick"/>
 
+        <Button
+            android:text="复习"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:id="@+id/button_beginfuxi"
+            android:onClick="Button_Beginfuxi_onClick"/>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

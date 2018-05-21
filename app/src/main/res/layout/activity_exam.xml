@@ -52,13 +52,76 @@
 
 
                 <TextView
-                    android:id="@+id/textView_article"
+                    android:id="@+id/exam_textView0"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:id="@+id/exam_textView1"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:text="" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
                 <TextView
-                    android:id="@+id/textView_question"
+                    android:id="@+id/exam_textView2"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:id="@+id/exam_textView3"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:id="@+id/exam_textView4"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:id="@+id/exam_textView5"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:id="@+id/exam_textView6"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:id="@+id/exam_textView7"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:text="" />

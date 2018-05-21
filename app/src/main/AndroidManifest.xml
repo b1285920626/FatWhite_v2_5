@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"/>
+            android:name=".MainActivity"></activity>
         <activity
             android:name=".activitys.LearnActivity"/>
         <activity
@@ -26,6 +26,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity android:name=".activitys.FuxiActivity"/>
 
     </application>
 
