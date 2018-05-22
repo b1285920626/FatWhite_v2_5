@@ -8,12 +8,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.MainActivity;
 import com.example.b.fatwhite_v2_5.R;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -24,6 +34,9 @@ import java.net.URLEncoder;
 
 public class LoginActivity extends Activity {
     private Message message = new Message();
+    private String openidString;
+
+    private Tencent mTencent;
     EditText editText_userid;
     EditText editText_userpw;
     Context context;
@@ -33,13 +46,116 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mTencent = Tencent.createInstance("1106884204",getApplicationContext());
+
         editText_userid = (EditText)findViewById(R.id.editText_userid);
         editText_userpw = (EditText)findViewById(R.id.editText_userpw);
 
         context = LoginActivity.this;
     }
 
-   private Handler handler=new Handler(){
+    //QQ登录按钮
+    public void buttun_qq_login_onclick(View view){
+        mTencent.login(LoginActivity.this,"all",new BaseUiListener());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Tencent.onActivityResultData(requestCode, resultCode, data, new BaseUiListener());
+
+        if(requestCode == Constants.REQUEST_API) {
+            if(resultCode == Constants.REQUEST_LOGIN) {
+                Tencent.handleResultData(data, new BaseUiListener());
+            }
+        }
+
+    }
+
+    private class BaseUiListener implements IUiListener {
+        public void onComplete(Object response) {
+            // TODO Auto-generated method stub
+            Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+
+            try {
+                //获得的数据是JSON格式的，获得你想获得的内容
+                //如果你不知道你能获得什么，看一下下面的LOG
+                Log.v("----TAG--", "-------------"+response.toString());
+                openidString = ((JSONObject) response).getString("openid");
+                mTencent.setOpenId(openidString);
+
+                mTencent.setAccessToken(((JSONObject) response).getString("access_token"),((JSONObject) response).getString("expires_in"));
+                Log.v("TAG", "-------------"+openidString);
+                //access_token= ((JSONObject) response).getString("access_token");              //expires_in = ((JSONObject) response).getString("expires_in");
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+            QQToken qqToken = mTencent.getQQToken();
+            UserInfo info = new UserInfo(getApplicationContext(), qqToken);
+
+            //    info.getUserInfo(new BaseUIListener(this,"get_simple_userinfo"));
+            info.getUserInfo(new IUiListener() {
+                @Override
+                public void onComplete(Object o) {
+                    //用户信息获取到了
+                    try {
+                        Toast.makeText(getApplicationContext(), ((JSONObject) o).getString("nickname")+((JSONObject) o).getString("gender"), Toast.LENGTH_SHORT).show();
+                        Log.v("UserInfo",o.toString());
+                        Intent intent1 = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent1);
+                        finish();
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(UiError uiError) {
+                    Log.v("UserInfo","onError");
+                }
+
+                @Override
+                public void onCancel() {
+                    Log.v("UserInfo","onCancel");
+                }
+            });
+
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(getApplicationContext(), "onError", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(getApplicationContext(), "onCancel", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //大登录按钮
+    public void buttonn_login_onclick(View view) {
+        ProgressDialog pd = new ProgressDialog(context); // 显示进度对话框
+        pd.setMessage("登录中...");
+        pd.show();
+
+        String id = editText_userid.getText().toString();
+        String pw = editText_userpw.getText().toString();
+        if( !TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw)) {
+            sendHttpPOSTRequest(editText_userid.getText().toString(), editText_userpw.getText().toString());
+            pd.dismiss();
+        }else {
+            Toast.makeText(this,"有空的啊...",Toast.LENGTH_SHORT).show();
+            pd.dismiss();
+        }
+    }
+
+    private Handler handler=new Handler(){
         public void handleMessage(Message msg) {
             switch (msg.arg1){
                 case 1:
@@ -59,22 +175,6 @@ public class LoginActivity extends Activity {
             }
         }
     };
-
-    public void buttonn_login_onclick(View view) {
-        ProgressDialog pd = new ProgressDialog(context); // 显示进度对话框
-        pd.setMessage("登录中...");
-        pd.show();
-
-        String id = editText_userid.getText().toString();
-        String pw = editText_userpw.getText().toString();
-        if( !TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw)) {
-            sendHttpPOSTRequest(editText_userid.getText().toString(), editText_userpw.getText().toString());
-            pd.dismiss();
-        }else {
-            Toast.makeText(this,"有空的啊...",Toast.LENGTH_SHORT).show();
-            pd.dismiss();
-        }
-    }
 
     public void sendHttpPOSTRequest (final String user_ID,final String user_pw)
     {
