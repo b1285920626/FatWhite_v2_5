@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spinner_settype"
+            android:layout_width="180dp"
+            android:layout_height="36dp" />
+
+        <Button
+            android:id="@+id/button_settingok"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:onClick="button_settingok_onclick"
+            android:text="确定" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

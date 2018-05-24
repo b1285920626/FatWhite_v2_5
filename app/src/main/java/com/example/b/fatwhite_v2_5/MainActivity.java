@@ -126,8 +126,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         homeFragment.settextview_3(this,Integer.toString(localDB.loadWords().size() - localDB.loadhistoryWords().size()));
         homeFragment.settextview_1(this,Integer.toString(20));
+        settingFragment.settextview(this,user_info.getString("User_name","未知用户"));
  //改成用那个的。。。
 //        homeFragment.settextview_2(this,Integer.toString(20-localDB.load_Userinfo().get_User_rate()));
+        replacefragment(homeFragment);
         super.onResume();
     }
 
