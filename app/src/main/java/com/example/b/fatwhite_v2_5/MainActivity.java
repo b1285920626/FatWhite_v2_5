@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         settingFragment.settextview(this,user_info.getString("User_name","未知用户"));
  //改成用那个的。。。
 //        homeFragment.settextview_2(this,Integer.toString(20-localDB.load_Userinfo().get_User_rate()));
-        replacefragment(homeFragment);
+//        replacefragment(homeFragment);
         super.onResume();
     }
 

@@ -55,7 +55,8 @@
                     android:id="@+id/exam_textView0"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
-                    android:text=""/>
+                    android:textSize="20sp"
+                    android:text="text"/>
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="20dp" />

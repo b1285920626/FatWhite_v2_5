@@ -174,7 +174,7 @@ public class ExamActivity extends Activity {
                 editor.putString("7",data_paper[6]);
                 editor.putString("8",data_paper[7]);
 
-                textView1.setText(data_paper[0]);
+                textView1.setText(data_paper[0].replaceAll("\\|","\n"));
                 textView2.setText(data_paper[1]);
                 textView3.setText(data_paper[2]);
                 textView4.setText(data_paper[3]);

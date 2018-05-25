@@ -201,6 +201,7 @@ public class LoginActivity extends Activity {
         startActivity(intent);
         LoginActivity.this.finish();
     }
+
     private HttpURLConnection getconnection (String ad){
         String IP = getString(R.string.IP_1);
         String address = "http://"+IP+":8080/FatWhite_Server/" + ad;
