@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="4dp"
         android:orientation="vertical">
 
         <Button
@@ -15,14 +16,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="button_newwordbook_onclick"
+            android:background="#22FFFFFF"
+            android:layout_margin="8dp"
             android:text="生词本" />
 
         <Button
             android:id="@+id/button_newexam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#22FFFFFF"
+            android:layout_margin="8dp"
             android:onClick="button_newexam_onclick"
             android:text="做试题" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="button_web0_onclick"
+            android:background="#22FFFFFF"
+            android:layout_margin="8dp"
+            android:text="51VOA听力练习" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="button_web1_onclick"
+            android:background="#22FFFFFF"
+            android:layout_margin="8dp"
+            android:text="有道在线词典" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="button_web3_onclick"
+            android:background="#22FFFFFF"
+            android:layout_margin="8dp"
+            android:text="BBC新闻" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="button_web2_onclick"
+            android:background="#22FFFFFF"
+            android:layout_margin="8dp"
+            android:text="有道精品课" />
 
     </LinearLayout>
 

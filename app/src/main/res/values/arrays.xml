@@ -28,5 +28,8 @@
     <string-array name="type">
         <item>CET4</item>
         <item>CET6</item>
+        <item>IELTS</item>
+        <item>TOEFL</item>
+        <item>GRE</item>
     </string-array>
 </resources>

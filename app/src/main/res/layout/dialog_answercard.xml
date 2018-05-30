@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -31,9 +32,11 @@
 
                 <Spinner
                     android:id="@+id/spinner26"
-                    android:layout_width="75dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    
+                    android:entries="@array/A_O"
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -42,8 +45,11 @@
 
                 <Spinner
                     android:id="@+id/spinner27"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
+
                     android:entries="@array/A_O" />
 
                 <TextView
@@ -53,9 +59,12 @@
 
                 <Spinner
                     android:id="@+id/spinner28"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -71,9 +80,12 @@
 
                 <Spinner
                     android:id="@+id/spinner29"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -82,9 +94,12 @@
 
                 <Spinner
                     android:id="@+id/spinner30"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -93,9 +108,12 @@
 
                 <Spinner
                     android:id="@+id/spinner31"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -111,9 +129,12 @@
 
                 <Spinner
                     android:id="@+id/spinner32"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -122,9 +143,12 @@
 
                 <Spinner
                     android:id="@+id/spinner33"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -133,9 +157,12 @@
 
                 <Spinner
                     android:id="@+id/spinner34"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -151,9 +178,12 @@
 
                 <Spinner
                     android:id="@+id/spinner35"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -175,9 +205,12 @@
 
                 <Spinner
                     android:id="@+id/spinner36"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -186,9 +219,12 @@
 
                 <Spinner
                     android:id="@+id/spinner37"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -197,9 +233,12 @@
 
                 <Spinner
                     android:id="@+id/spinner38"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -215,9 +254,12 @@
 
                 <Spinner
                     android:id="@+id/spinner39"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -226,9 +268,12 @@
 
                 <Spinner
                     android:id="@+id/spinner40"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -237,9 +282,12 @@
 
                 <Spinner
                     android:id="@+id/spinner41"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -255,9 +303,12 @@
 
                 <Spinner
                     android:id="@+id/spinner42"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -266,9 +317,12 @@
 
                 <Spinner
                     android:id="@+id/spinner43"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -277,9 +331,12 @@
 
                 <Spinner
                     android:id="@+id/spinner44"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -295,9 +352,12 @@
 
                 <Spinner
                     android:id="@+id/spinner45"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_O" />
+                    android:entries="@array/A_O"
+                    />
 
             </LinearLayout>
 
@@ -325,9 +385,12 @@
 
                 <Spinner
                     android:id="@+id/spinner46"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -336,9 +399,12 @@
 
                 <Spinner
                     android:id="@+id/spinner47"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -347,9 +413,12 @@
 
                 <Spinner
                     android:id="@+id/spinner48"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
             </LinearLayout>
 
@@ -365,9 +434,12 @@
 
                 <Spinner
                     android:id="@+id/spinner49"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -376,9 +448,12 @@
 
                 <Spinner
                     android:id="@+id/spinner50"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
             </LinearLayout>
 
@@ -400,9 +475,12 @@
 
                 <Spinner
                     android:id="@+id/spinner51"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -411,9 +489,12 @@
 
                 <Spinner
                     android:id="@+id/spinner52"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -422,9 +503,12 @@
 
                 <Spinner
                     android:id="@+id/spinner53"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
             </LinearLayout>
 
@@ -440,9 +524,12 @@
 
                 <Spinner
                     android:id="@+id/spinner54"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
                 <TextView
                     android:layout_width="20dp"
@@ -451,9 +538,12 @@
 
                 <Spinner
                     android:id="@+id/spinner55"
-                    android:layout_width="75dp"
+                    
+
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/A_D" />
+                    android:entries="@array/A_D"
+                    />
 
             </LinearLayout>
 
@@ -461,6 +551,7 @@
                 android:id="@+id/button_putin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="button_putin_onclick"
                 android:text="点击提交"/>
         </LinearLayout>
     </ScrollView>

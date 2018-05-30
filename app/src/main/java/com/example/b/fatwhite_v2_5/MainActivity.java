@@ -22,11 +22,12 @@ import com.example.b.fatwhite_v2_5.activitys.ExamActivity;
 import com.example.b.fatwhite_v2_5.activitys.FuxiActivity;
 import com.example.b.fatwhite_v2_5.activitys.LearnActivity;
 import com.example.b.fatwhite_v2_5.activitys.NewWordActivity;
+import com.example.b.fatwhite_v2_5.activitys.WebActivity;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.HomeFragment;
 import com.example.b.fatwhite_v2_5.fragment.MoreFragment;
 import com.example.b.fatwhite_v2_5.fragment.SettingFragment;
-import com.example.b.fatwhite_v2_5.httputil.HttpGetUtil;
+import com.example.b.fatwhite_v2_5.util.HttpGetUtil;
 
 public class MainActivity extends AppCompatActivity {
     private String type;
@@ -166,9 +167,29 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //按钮web
+    public void button_web0_onclick(View view){
+        toweb("http://www.51voa.com");
+    }
+    public void button_web1_onclick(View view){
+        toweb("http://dict.youdao.com/");
+    }
+    public void button_web2_onclick(View view){
+        toweb("https://ke.youdao.com/");
+    }
+    public void button_web3_onclick(View view){
+        toweb("http://www.bbc.com/news");
+    }
     //按钮生词本
     public void button_newwordbook_onclick(View view){
         Intent intent = new Intent(MainActivity.this,NewWordActivity.class);
+        startActivity(intent);
+    }
+
+    //网页
+    private void toweb(String string){
+        Intent intent = new Intent(MainActivity.this, WebActivity.class);
+        intent.putExtra("url", string);
         startActivity(intent);
     }
 

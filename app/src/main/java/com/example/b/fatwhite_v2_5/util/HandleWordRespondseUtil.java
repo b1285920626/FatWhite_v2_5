@@ -1,4 +1,4 @@
-package com.example.b.fatwhite_v2_5.httputil;
+package com.example.b.fatwhite_v2_5.util;
 
 import android.text.TextUtils;
 

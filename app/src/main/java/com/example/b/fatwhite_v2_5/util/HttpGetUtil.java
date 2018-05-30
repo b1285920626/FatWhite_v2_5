@@ -1,21 +1,17 @@
-package com.example.b.fatwhite_v2_5.httputil;
+package com.example.b.fatwhite_v2_5.util;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.b.fatwhite_v2_5.MainActivity;
 import com.example.b.fatwhite_v2_5.R;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * Created by B on 2018-05-09.

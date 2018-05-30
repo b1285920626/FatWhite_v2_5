@@ -43,6 +43,7 @@ public class LoginActivity extends Activity {
     Spinner spinner;
     Context context;
     AlertDialog dialog_setting;
+    String STORE_NAME = "User_info";
     SharedPreferences user_info;
     SharedPreferences.Editor editor;
     //笔记
@@ -61,6 +62,7 @@ public class LoginActivity extends Activity {
 //    EditText editText_userid;
 //    EditText editText_userpw;
 
+//---------------------------------------初始化--------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,6 @@ public class LoginActivity extends Activity {
         mTencent = Tencent.createInstance("1106884204",getApplicationContext());//获取QQ登录实例
         context = LoginActivity.this;
 
-        String STORE_NAME = "User_info";
         user_info = getSharedPreferences(STORE_NAME, MODE_PRIVATE);
         editor = user_info.edit();
 
@@ -77,12 +78,14 @@ public class LoginActivity extends Activity {
 //        editText_userpw = (EditText)findViewById(R.id.editText_userpw);
     }
 
+
+//-------------------------------------QQ登录-----------------------------------------------------------------------------------------------
     //QQ登录按钮
     public void buttun_qq_login_onclick(View view){
         mTencent.login(LoginActivity.this,"all",new BaseUiListener());
     }
 
-    //腾讯SDK示例中的。。
+    //腾讯SDK示例中的方法
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,6 +163,8 @@ public class LoginActivity extends Activity {
         }
     }
 
+//---------------------------------------弹框选类型-----------------------------------------------------------------------------------------
+
     private Handler handler = new Handler() {
         public void handleMessage(Message message) {
             if(message.arg1 == 1){
@@ -202,6 +207,8 @@ public class LoginActivity extends Activity {
         LoginActivity.this.finish();
     }
 
+//-----------------------------------------HTTP连接--------------------------------------------------------------------------------------------------
+
     private HttpURLConnection getconnection (String ad){
         String IP = getString(R.string.IP_1);
         String address = "http://"+IP+":8080/FatWhite_Server/" + ad;
@@ -223,6 +230,8 @@ public class LoginActivity extends Activity {
             return null;
         }
     }
+
+//------------------------------------上传用户信息--openid--name--type-----------------------------------------------------------
 
     private void send_User_info(final String str){
         new Thread(new Runnable() {
@@ -274,6 +283,8 @@ public class LoginActivity extends Activity {
             }
         }).start();
     }
+
+//--------------------------------------获取弹框选项内容 -------------------------------------------------------------------------------------
 
     private void getUser_type(final String openid){
         //向服务器询问User_type//发送openid，返回type(及进度后面再写），写到Sharedxx里，没有就弹框让用户选

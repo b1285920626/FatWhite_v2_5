@@ -12,9 +12,12 @@
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="185dp"
+            android:layout_height="125dp"
             android:ems="10" />
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="60dp" />
         <Button
             android:id="@+id/button_dontknowit"
             android:layout_width="match_parent"

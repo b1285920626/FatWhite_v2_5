@@ -6,8 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/ic_launcher_1"
         android:supportsRtl="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
@@ -27,7 +26,8 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.FuxiActivity"/>
+        <activity
+            android:name=".activitys.FuxiActivity"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -46,7 +46,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
-
+        <activity
+            android:name=".activitys.WebActivity"></activity>
     </application>
 
 </manifest>
