@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.MainActivity;
 import com.example.b.fatwhite_v2_5.R;
+import com.example.b.fatwhite_v2_5.util.HttpPostUtil;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.connect.common.Constants;
@@ -132,7 +133,8 @@ public class LoginActivity extends Activity {
                         editor.putString("User_name",nickname);
                         editor.commit();
                         Log.v("UserInfo",o.toString());
-                        getUser_type(openidString);
+//------------------------------------------发送openid获得type，就下面这一行，处理在handler里--------------------------------------------------------------------------------------------------
+                        HttpPostUtil.send_data(1,"openid="+openidString,"LoginServer",context,handler);
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -163,29 +165,42 @@ public class LoginActivity extends Activity {
         }
     }
 
-//---------------------------------------弹框选类型-----------------------------------------------------------------------------------------
+//---------------------------------------弹框选类型，处理返回的数据-----------------------------------------------------------------------------------------
 
     private Handler handler = new Handler() {
         public void handleMessage(Message message) {
-            if(message.arg1 == 1){
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                View myview = View.inflate(context,R.layout.dialog_setting,null);
-
-                builder.setView(myview);
-                dialog_setting = builder.create();
-                dialog_setting.setTitle("请选择一个种类...");
-                dialog_setting.setCancelable(false);
-
-                spinner = (Spinner)myview.findViewById(R.id.spinner_settype);
-                ArrayAdapter<String> adapter=new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line,android.R.id.text1,(String[]) message.obj);
-                spinner.setAdapter(adapter);
-
-                dialog_setting.show();
-            }else {
+            if(message.arg1 == 0){
                 Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
+            }
+            else{
+                typearray = message.obj.toString().split("\\|");
+                if(typearray.length == 1) {
+                    editor.putString("type",typearray[0]);
+                    editor.commit();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    View myview = View.inflate(context,R.layout.dialog_setting,null);
+
+                    builder.setView(myview);
+                    dialog_setting = builder.create();
+                    dialog_setting.setTitle("请选择一个种类...");
+                    dialog_setting.setCancelable(false);
+
+                    spinner = (Spinner)myview.findViewById(R.id.spinner_settype);
+                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line,android.R.id.text1,typearray);
+                    spinner.setAdapter(adapter);
+
+                    dialog_setting.show();
+                }
             }
         }
     };
+
+//----------------------------------弹框里的确定按钮---------------------------------------------------------------------------------------------------------------------
 
     public void button_settingok_onclick(View view){
         //上传userinfo
@@ -194,7 +209,8 @@ public class LoginActivity extends Activity {
             String string = "user_openid=" + URLEncoder.encode(openidString, "UTF-8")
                           + "&user_name=" + URLEncoder.encode(nickname, "UTF-8")
                           + "&user_type=" + URLEncoder.encode(type, "UTF-8");
-            send_User_info(string);
+
+            HttpPostUtil.send_data(0,string,"Set_User_info",context,handler);
         }catch (Exception e){
             Log.e("上传..",e.toString());
         }
@@ -202,150 +218,10 @@ public class LoginActivity extends Activity {
         editor.putString("type",type);
         editor.commit();
         dialog_setting.dismiss();
+
         Intent intent = new Intent(context, MainActivity.class);
         startActivity(intent);
         LoginActivity.this.finish();
-    }
-
-//-----------------------------------------HTTP连接--------------------------------------------------------------------------------------------------
-
-    private HttpURLConnection getconnection (String ad){
-        String IP = getString(R.string.IP_1);
-        String address = "http://"+IP+":8080/FatWhite_Server/" + ad;
-        HttpURLConnection connection;
-        try {
-            URL url = new URL(address);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-
-            connection.setReadTimeout(3000);
-            connection.setConnectTimeout(3000);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setUseCaches(false);
-
-            return connection;
-        }catch (Exception e){
-            Log.e("URL",e.toString());
-            return null;
-        }
-    }
-
-//------------------------------------上传用户信息--openid--name--type-----------------------------------------------------------
-
-    private void send_User_info(final String str){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                boolean flag = true;
-                Message message = handler.obtainMessage();//重新获取message
-                while (flag){
-                HttpURLConnection connection = getconnection("Set_User_info");
-                try{
-                    OutputStream outputStream = connection.getOutputStream();
-                    outputStream.write(str.getBytes());
-                    outputStream.flush();
-                    outputStream.close();
-                    connection.connect();
-                    //以上为发送
-                    if (connection.getResponseCode() == 200) {
-                        InputStream is = connection.getInputStream();// 获取响应的输入流对象
-                        ByteArrayOutputStream msg = new ByteArrayOutputStream(); // 创建字节输出流对象
-
-                        // 定义缓冲区
-                        int len = 0;
-                        byte buffer[] = new byte[1024];
-                        while ((len = is.read(buffer)) != -1) {// 按照缓冲区的大小，循环读取
-                            msg.write(buffer, 0, len);// 根据读取的长度写入到os对象中
-                        }
-                        // 释放资源
-                        is.close();
-                        msg.close();
-
-                        if(new String(msg.toByteArray()).equals("success")){
-                            message.arg1 = 2;
-                            message.obj = "配置信息同步成功。";
-                            handler.sendMessage(message);
-                            flag = false;
-                        }
-                    }
-                }catch (Exception e)
-                {
-                    Log.e("test---------",e.toString());
-                    message.arg1 = 0;
-                    message.obj = "网络波动..稍后继续尝试...";
-                    handler.sendMessage(message);
-                } finally {
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
-                }}
-            }
-        }).start();
-    }
-
-//--------------------------------------获取弹框选项内容 -------------------------------------------------------------------------------------
-
-    private void getUser_type(final String openid){
-        //向服务器询问User_type//发送openid，返回type(及进度后面再写），写到Sharedxx里，没有就弹框让用户选
-        type = "";
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Message message = new Message();
-                HttpURLConnection connection = getconnection("LoginServer");
-                try{
-                    //发送信息openid
-                    String senddata = "openid="+ URLEncoder.encode(openid,"UTF-8");
-
-                    OutputStream outputStream = connection.getOutputStream();
-                    outputStream.write(senddata.getBytes());
-                    outputStream.flush();
-                    outputStream.close();
-                    connection.connect();
-                    //以上为发送
-
-                    if (connection.getResponseCode() == 200) {
-                        InputStream is = connection.getInputStream();// 获取响应的输入流对象
-                        ByteArrayOutputStream msg = new ByteArrayOutputStream(); // 创建字节输出流对象
-
-                        // 定义缓冲区
-                        int len = 0;
-                        byte buffer[] = new byte[1024];
-                        while ((len = is.read(buffer)) != -1) {// 按照缓冲区的大小，循环读取
-                            msg.write(buffer, 0, len);// 根据读取的长度写入到os对象中
-                        }
-                        // 释放资源
-                        is.close();
-                        msg.close();
-                        type = new String(msg.toByteArray());// 返回字符串
-                    }
-
-                    typearray = type.split("\\|");
-                    if(typearray.length == 1) {
-                        editor.putString("type",typearray[0]);
-                        editor.commit();
-                        Intent intent = new Intent(context, MainActivity.class);
-                        startActivity(intent);
-                        LoginActivity.this.finish();
-                    }else {
-                        message.arg1 = 1;
-                        message.obj = typearray;
-                        handler.sendMessage(message);
-                    }
-                }catch (Exception e)
-                {
-                    message.arg1 = 0;
-                    message.obj = "数据服务器不在线...，请稍后再试... ";
-                    handler.sendMessage(message);
-                } finally {
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
-                }
-            }
-        }).start();
     }
 
 //    //原登录按钮

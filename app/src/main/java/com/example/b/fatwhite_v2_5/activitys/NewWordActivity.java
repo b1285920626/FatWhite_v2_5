@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,6 +23,8 @@ import android.widget.Toast;
 import com.example.b.fatwhite_v2_5.R;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.model.Word;
+import com.example.b.fatwhite_v2_5.util.HttpPostUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,14 @@ public class NewWordActivity extends Activity {
     String[] data;
     Context context;
 
+    ArrayAdapter<String> adapter;
+    ListView listView;
+
+    String STORE_NAME = "User_info";
+    SharedPreferences user_info;
+
+//--------------------------------------初始化------------------------------------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +54,15 @@ public class NewWordActivity extends Activity {
         context = this;
         localDB = new LocalDB(NewWordActivity.this);
         try{
-        wordList = localDB.loadPrivateWord();}
-        catch (Exception e){
+            wordList = localDB.loadPrivateWord();
+        } catch (Exception e){
             System.out.println(e.toString());
         }
 
         data = new String[wordList.size()];
         for(int i = 0; i < wordList.size();i++) data[i] = wordList.get(i).get_word();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewWordActivity.this,android.R.layout.simple_expandable_list_item_1,data);
-        ListView listView = (ListView)findViewById(R.id.listview);
+        adapter = new ArrayAdapter<String>(NewWordActivity.this,android.R.layout.simple_expandable_list_item_1,data);
+        listView = (ListView)findViewById(R.id.listview);
         listView.setAdapter(adapter);
 
         EditText editText_search = (EditText)findViewById(R.id.editText_search);
@@ -80,7 +93,17 @@ public class NewWordActivity extends Activity {
 
             }
         });
+
+        user_info = getSharedPreferences(STORE_NAME, MODE_PRIVATE);
     }
+
+    Handler handler = new Handler(){
+        public void handleMessage(Message message) {
+            Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
+        }
+    };
+
+//--------------------------------------按钮弹框-------------------------------------------------------------------------------
 
     public void button_addnewword_onclick (View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(NewWordActivity.this);
@@ -98,6 +121,8 @@ public class NewWordActivity extends Activity {
         dialog.getWindow().setLayout(outsize.x,outsize.y/3);
     }
 
+//--------------------------------------保存新词-------------------------------------------------------------------------------
+
     public void button_add_onclick(View view){
         Word word =new Word();
         if( !TextUtils.isEmpty(editText_word.getText()) && !TextUtils.isEmpty(editText_translation.getText())){
@@ -110,9 +135,27 @@ public class NewWordActivity extends Activity {
         }catch (Exception e){
             Toast.makeText(NewWordActivity.this,e.toString(),Toast.LENGTH_LONG).show();
         }
-    }
 
+        try{
+            wordList = localDB.loadPrivateWord();
+        } catch (Exception e){
+            System.out.println(e.toString());
+        }
+        data = new String[wordList.size()];
+        for(int i = 0; i < wordList.size();i++) data[i] = wordList.get(i).get_word();
+        adapter = new ArrayAdapter<String>(NewWordActivity.this,android.R.layout.simple_expandable_list_item_1,data);
+        listView.setAdapter(adapter);
+    }
+//----------------------------------------退出时上传----------------------------------------------------------------------------------------------------------------
     public void onBackPressed(View view){
+        //上传
+        Gson gson = new Gson();
+        String wordlist = gson.toJson(wordList);
+        String worddata = "openid="+user_info.getString("User_openid","")+"&wordlist="+wordlist;
+        String address = "Save_wordlist";
+
+        HttpPostUtil.send_data(0,worddata,address,context,handler);
+
         super.onBackPressed();
     }
 }

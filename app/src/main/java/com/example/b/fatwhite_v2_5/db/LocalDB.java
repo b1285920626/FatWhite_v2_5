@@ -64,7 +64,7 @@ public class LocalDB {
 
     public List<Word> loadPrivateWord (){
         List<Word> list = new ArrayList<Word>();
-        Cursor cursor = db.query("Local_PrivateWord", null, null, null, null, null, null);//SQLite的查询？？
+        Cursor cursor = db.query("Local_PrivateWord", null, null, null, null, null, "word");//SQLite的查询？？
         if(cursor.moveToFirst()){
             do{
                 Word word = new Word();

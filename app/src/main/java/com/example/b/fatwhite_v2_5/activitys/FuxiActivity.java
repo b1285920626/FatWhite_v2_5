@@ -26,7 +26,6 @@ public class FuxiActivity extends FragmentActivity {
     TextToSpeech tts;
     private List<Word> todayList;
     private LocalDB localDB;
-    private int rightoptions;
     private int flag = 0;//第几个单词
     EditText editText;
 
@@ -34,12 +33,10 @@ public class FuxiActivity extends FragmentActivity {
     LearnCheckFragment2 learnCheckFragment = new LearnCheckFragment2();
     Fragment current_fragment =new Fragment();
 
-//    Userinfo userinfo = new Userinfo();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_learn);
+        setContentView(R.layout.activity_fuxi);
 
         //tts是安卓的语音合成引擎，具体怎么回事我也不知道，反正这么写就对了
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
@@ -57,25 +54,18 @@ public class FuxiActivity extends FragmentActivity {
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadtodayWords();
-//        userinfo = localDB.load_Userinfo();
-        //       userinfo.set_User_rate(0);
 
         FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_layout,learnCheckFragment);
-//        transaction.hide(learnCheckFragment);
-//        transaction.add(R.id.fragment_layout,learnOptionsFragment);
+        transaction.add(R.id.fragment_layout_f,learnCheckFragment);
         transaction.commit();
 
         current_fragment = learnOptionsFragment;
-
-
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
         fill_word();
-//        fill_optionsfragment();
+        super.onResume();
     }
 
     //显示单词
@@ -90,7 +80,6 @@ public class FuxiActivity extends FragmentActivity {
         if(word.get_thistimes() == 1||word.get_thistimes() == 3){
             replacefragment(learnOptionsFragment);
             fill_word();
-//            fill_optionsfragment();
         }else{
             replacefragment(learnCheckFragment);
             fill_word();
@@ -102,19 +91,15 @@ public class FuxiActivity extends FragmentActivity {
     public void fill_word(){
         Word word = todayList.get(flag);
 
-        TextView current_word = (TextView)findViewById(R.id.current_word);
-        TextView current_soundmark = (TextView)findViewById(R.id.current_soundmark);
-        RatingBar ratingBar = (RatingBar)findViewById(R.id.ratingBar);
+        TextView current_word = (TextView)findViewById(R.id.current_word_f);
 
         current_word.setText("再听一次");
-        current_soundmark.setText("");
-        ratingBar.setRating(word.get_thistimes());
 
         tts.speak(word.get_word(),TextToSpeech.QUEUE_ADD,null,null);
     }
 
     //显示例句
-    public void button_show_sentence_onClick (View view){
+    public void button_show_sentence_f_onClick (View view){
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
                 .setTitle("例句：")//设置对话框的标题
@@ -140,33 +125,10 @@ public class FuxiActivity extends FragmentActivity {
     }
 
     //单词点击发音
-    public void read_current_word (View view){
+    public void read_current_f_word (View view){
         String string = todayList.get(flag).get_word();
         tts.speak(string,TextToSpeech.QUEUE_ADD,null,null);
     }
-
-
-    public void button_dontknow_onclick(View view){
-        show_translation();
-        todayList.get(flag).set_thistimes(0);
-    }
-    //弹窗显示翻译
-    public void show_translation(){
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
-                .setTitle("翻译：")//设置对话框的标题
-                .setMessage(todayList.get(flag).get_translation())//设置对话框的内容
-                .setPositiveButton("下一个", new DialogInterface.OnClickListener() {//设置对话框的按钮
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        show_nextword();
-                        dialog.dismiss();
-                    }
-                }).create();
-        // dialog.setCancelable(false);//点外面不消失
-        dialog.show();
-    }
-
 
     public void button_onclick(View view){
         editText = (EditText)findViewById(R.id.editText);
@@ -180,14 +142,6 @@ public class FuxiActivity extends FragmentActivity {
             Toast.makeText(this,"错啦",Toast.LENGTH_SHORT).show();
         }
     }
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        localDB.saveUserinfo(userinfo);
-//        if (tts != null) {
-//            tts.shutdown();
-//        }
-//    }
 
     public void onBackPressed(View view){
         super.onBackPressed();

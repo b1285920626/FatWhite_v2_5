@@ -13,12 +13,13 @@
             android:id="@+id/textView_useless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="26dp"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="26dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="43dp"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
 
             <Spinner
@@ -34,6 +35,56 @@
                 android:layout_height="wrap_content"
                 android:onClick="Button_download_onClick"
                 android:text="下载" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinner_count"
+                android:layout_width="290dp"
+                android:layout_height="match_parent"
+                android:entries="@array/count"
+                android:gravity="center" />
+
+            <Button
+                android:id="@+id/button_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Button_download_onClick"
+                android:text="更改" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="历史试卷" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinner_history_papername"
+                android:layout_width="290dp"
+                android:layout_height="match_parent"
+                android:gravity="center" />
+
+            <Button
+                android:id="@+id/button_look"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Button_look_onClick"
+                android:text="查看" />
+
         </LinearLayout>
 
     </LinearLayout>

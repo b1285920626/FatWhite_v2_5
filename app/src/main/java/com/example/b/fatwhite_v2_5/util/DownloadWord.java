@@ -17,7 +17,7 @@ import java.net.URL;
  * Created by B on 2018-05-09.
  */
 
-public class HttpGetUtil {
+public class DownloadWord {
     private Handler handler;
     private Message message = new Message();
 

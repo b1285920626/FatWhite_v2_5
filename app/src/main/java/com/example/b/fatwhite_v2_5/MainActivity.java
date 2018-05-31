@@ -27,7 +27,7 @@ import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.HomeFragment;
 import com.example.b.fatwhite_v2_5.fragment.MoreFragment;
 import com.example.b.fatwhite_v2_5.fragment.SettingFragment;
-import com.example.b.fatwhite_v2_5.util.HttpGetUtil;
+import com.example.b.fatwhite_v2_5.util.DownloadWord;
 
 public class MainActivity extends AppCompatActivity {
     private String type;
@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
     MoreFragment moreFragment = new MoreFragment();
     Fragment current_fragment = new Fragment();
     LocalDB localDB;
-    Handler handler = new Handler();
+    Handler handler;
+
+//---------------------------底部导航栏，系统生成---------------------------------------------------------------------------------------------
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+//---------------------------------初始化的几个重写了的函数-------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,9 +121,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 
@@ -134,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
+//----------------------------------一大堆按钮--------------------------------------------------------------------------------------------------
+
     //下载按钮
     public void Button_download_onClick(View view)
     {
@@ -142,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
         pd.show();
 
         String tablename = "word_"+user_info.getString("type","cet4");
-        HttpGetUtil httpGetUtil = new HttpGetUtil();
-        httpGetUtil.initargs(handler,MainActivity.this,tablename,localDB);
-        httpGetUtil.sendHttpGETRequest();
+        DownloadWord downloadWord = new DownloadWord();
+        downloadWord.initargs(handler,MainActivity.this,tablename,localDB);
+        downloadWord.sendHttpGETRequest();
 
         pd.dismiss();
     }
@@ -186,12 +190,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //网页
+    //跳转到网页
     private void toweb(String string){
         Intent intent = new Intent(MainActivity.this, WebActivity.class);
         intent.putExtra("url", string);
         startActivity(intent);
     }
+
+//--------------------------------切换界面显示内容--------------------------------------------------------------------
 
     private void replacefragment(Fragment fragment){
         if(current_fragment != fragment){
@@ -202,8 +208,6 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
     }
-
-    //两次返回键退出
 
     public void onBackPressed(View view){
         super.onBackPressed();

@@ -55,7 +55,7 @@ public class LearnActivity extends FragmentActivity {
         //设置音调
         tts.setPitch(0.7f);
         //设置语速
-        tts.setSpeechRate(1.4f);
+        tts.setSpeechRate(1.3f);
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadtodayWords();

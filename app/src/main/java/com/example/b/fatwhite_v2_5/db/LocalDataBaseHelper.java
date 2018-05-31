@@ -59,6 +59,7 @@ public class LocalDataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_HISTORYWORD);
         db.execSQL(CREATE_PRIVATEWORD);
         db.execSQL(CREATE_EXAMTEMP);
+
         ContentValues values = new ContentValues();
         values.put("User_ID","");
         values.put("User_name","");

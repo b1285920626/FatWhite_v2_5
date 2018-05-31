@@ -135,8 +135,10 @@ public class ExamActivity extends Activity {
 
     //退出按钮，存储和清空原答案
     public void onBackPressed(View view){
+        //取出paper的数据
+  //      paper.;
 
-
+        editor.clear().commit();
         super.onBackPressed();
     }
 
@@ -258,7 +260,7 @@ public class ExamActivity extends Activity {
         dialog_answercard.show();
     }
 
-    //监听
+    //监听spinner
     Spinner.OnItemSelectedListener spinSelectedListener = new Spinner.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
