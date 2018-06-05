@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.activitys.ExamActivity;
 import com.example.b.fatwhite_v2_5.activitys.FuxiActivity;
+import com.example.b.fatwhite_v2_5.activitys.HistoryPaperActivity;
 import com.example.b.fatwhite_v2_5.activitys.LearnActivity;
 import com.example.b.fatwhite_v2_5.activitys.NewWordActivity;
 import com.example.b.fatwhite_v2_5.activitys.WebActivity;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment current_fragment = new Fragment();
     LocalDB localDB;
     Handler handler;
+
+    Spinner historyPaperName;
 
 //---------------------------底部导航栏，系统生成---------------------------------------------------------------------------------------------
 
@@ -103,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
-
     }
 
     @Override
@@ -168,6 +169,14 @@ public class MainActivity extends AppCompatActivity {
     //按钮开始做题
     public void button_newexam_onclick(View view){
         Intent intent = new Intent(MainActivity.this, ExamActivity.class);
+        startActivity(intent);
+    }
+
+    //查看历史试卷
+    public void Button_look_onClick(View view){
+        historyPaperName = settingFragment.getSpinner_historyPaperName(MainActivity.this);
+        Intent intent = new Intent(MainActivity.this, HistoryPaperActivity.class);
+        intent.putExtra("paper_name", historyPaperName.getSelectedItem().toString());
         startActivity(intent);
     }
 

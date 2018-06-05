@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.b.fatwhite_v2_5.R;
 
 public class SettingFragment extends Fragment {
     TextView textview;
+    Spinner historyPaperName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //引用创建好的xml布局
@@ -22,5 +24,10 @@ public class SettingFragment extends Fragment {
     public void settextview(Activity activity, String str){
         textview = (TextView) activity.findViewById(R.id.textView_useless);
         textview.setText("当前用户：" + str);
+    }
+
+    public Spinner getSpinner_historyPaperName(Activity activity){
+        historyPaperName = (Spinner)activity.findViewById(R.id.spinner_history_papername);
+        return historyPaperName;
     }
 }

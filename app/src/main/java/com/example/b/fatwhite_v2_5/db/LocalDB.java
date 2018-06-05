@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.b.fatwhite_v2_5.model.HistoryWord;
-import com.example.b.fatwhite_v2_5.model.Userinfo;
 import com.example.b.fatwhite_v2_5.model.Word;
 
 import java.util.ArrayList;

@@ -13,6 +13,8 @@
         <activity
             android:name=".MainActivity"></activity>
         <activity
+            android:name=".activitys.HistoryPaperActivity"></activity>
+        <activity
             android:name=".activitys.LearnActivity"/>
         <activity
             android:name=".activitys.NewWordActivity"/>

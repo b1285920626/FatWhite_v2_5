@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.R;
+import com.example.b.fatwhite_v2_5.model.HistoryPaper;
 import com.example.b.fatwhite_v2_5.model.Paper;
+import com.example.b.fatwhite_v2_5.util.HttpPostUtil;
 import com.example.b.fatwhite_v2_5.util.ToSBC;
 import com.google.gson.Gson;
 
@@ -26,7 +30,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,15 +140,11 @@ public class ExamActivity extends Activity {
         firstTask.execute();
     }
 
-    //退出按钮，存储和清空原答案
-    public void onBackPressed(View view){
-        //取出paper的数据
-  //      paper.;
-
-        editor.clear().commit();
-        super.onBackPressed();
-    }
-
+    Handler handler = new Handler(){
+        public void handleMessage(Message message) {
+            Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
+        }
+    };
 
 //---------------------初始化完成---------------------------------------------------------------------------------------
 
@@ -267,68 +270,98 @@ public class ExamActivity extends Activity {
             switch (parent.getId()) {
                 case R.id.spinner26:
 //                    Toast.makeText(ExamActivity.this,"aa:"+Integer.toString(spinner26.getSelectedItemPosition()),Toast.LENGTH_SHORT).show();
-                    editor.putInt("26",spinner26.getSelectedItemPosition()); editor.commit(); myanswer[0] = spinner26.getSelectedItem().toString();break;
+                    editor.putInt("26",spinner26.getSelectedItemPosition()); editor.commit();
+                    myanswer[0] = spinner26.getSelectedItem().toString();break;
                 case R.id.spinner27:
-                    editor.putInt("27",spinner27.getSelectedItemPosition()); editor.commit(); myanswer[1] = spinner27.getSelectedItem().toString();break;
+                    editor.putInt("27",spinner27.getSelectedItemPosition()); editor.commit();
+                    myanswer[1] = spinner27.getSelectedItem().toString();break;
                 case R.id.spinner28:
-                    editor.putInt("28",spinner28.getSelectedItemPosition()); editor.commit(); myanswer[2] = spinner28.getSelectedItem().toString();break;
+                    editor.putInt("28",spinner28.getSelectedItemPosition()); editor.commit();
+                    myanswer[2] = spinner28.getSelectedItem().toString();break;
                 case R.id.spinner29:
-                    editor.putInt("29",spinner29.getSelectedItemPosition()); editor.commit(); myanswer[3] = spinner29.getSelectedItem().toString();break;
+                    editor.putInt("29",spinner29.getSelectedItemPosition()); editor.commit();
+                    myanswer[3] = spinner29.getSelectedItem().toString();break;
                 case R.id.spinner30:
-                    editor.putInt("30",spinner30.getSelectedItemPosition()); editor.commit(); myanswer[4] = spinner30.getSelectedItem().toString();break;
+                    editor.putInt("30",spinner30.getSelectedItemPosition()); editor.commit();
+                    myanswer[4] = spinner30.getSelectedItem().toString();break;
                 case R.id.spinner31:
-                    editor.putInt("31",spinner31.getSelectedItemPosition()); editor.commit(); myanswer[5] = spinner31.getSelectedItem().toString();break;
+                    editor.putInt("31",spinner31.getSelectedItemPosition()); editor.commit();
+                    myanswer[5] = spinner31.getSelectedItem().toString();break;
                 case R.id.spinner32:
-                    editor.putInt("32",spinner32.getSelectedItemPosition()); editor.commit(); myanswer[6] = spinner32.getSelectedItem().toString();break;
+                    editor.putInt("32",spinner32.getSelectedItemPosition()); editor.commit();
+                    myanswer[6] = spinner32.getSelectedItem().toString();break;
                 case R.id.spinner33:
-                    editor.putInt("33",spinner33.getSelectedItemPosition()); editor.commit(); myanswer[7] = spinner33.getSelectedItem().toString();break;
+                    editor.putInt("33",spinner33.getSelectedItemPosition()); editor.commit();
+                    myanswer[7] = spinner33.getSelectedItem().toString();break;
                 case R.id.spinner34:
-                    editor.putInt("34",spinner34.getSelectedItemPosition()); editor.commit(); myanswer[8] = spinner34.getSelectedItem().toString();break;
+                    editor.putInt("34",spinner34.getSelectedItemPosition()); editor.commit();
+                    myanswer[8] = spinner34.getSelectedItem().toString();break;
                 case R.id.spinner35:
-                    editor.putInt("35",spinner35.getSelectedItemPosition()); editor.commit(); myanswer[9] = spinner35.getSelectedItem().toString();break;
+                    editor.putInt("35",spinner35.getSelectedItemPosition()); editor.commit();
+                    myanswer[9] = spinner35.getSelectedItem().toString();break;
 
                 case R.id.spinner36:
-                    editor.putInt("36",spinner36.getSelectedItemPosition()); editor.commit(); myanswer[10] = spinner36.getSelectedItem().toString();break;
+                    editor.putInt("36",spinner36.getSelectedItemPosition()); editor.commit();
+                    myanswer[10] = spinner36.getSelectedItem().toString();break;
                 case R.id.spinner37:
-                    editor.putInt("37",spinner37.getSelectedItemPosition()); editor.commit(); myanswer[11] = spinner37.getSelectedItem().toString();break;
+                    editor.putInt("37",spinner37.getSelectedItemPosition()); editor.commit();
+                    myanswer[11] = spinner37.getSelectedItem().toString();break;
                 case R.id.spinner38:
-                    editor.putInt("38",spinner38.getSelectedItemPosition()); editor.commit(); myanswer[12] = spinner38.getSelectedItem().toString();break;
+                    editor.putInt("38",spinner38.getSelectedItemPosition()); editor.commit();
+                    myanswer[12] = spinner38.getSelectedItem().toString();break;
                 case R.id.spinner39:
-                    editor.putInt("39",spinner39.getSelectedItemPosition()); editor.commit(); myanswer[13] = spinner39.getSelectedItem().toString();break;
+                    editor.putInt("39",spinner39.getSelectedItemPosition()); editor.commit();
+                    myanswer[13] = spinner39.getSelectedItem().toString();break;
                 case R.id.spinner40:
-                    editor.putInt("40",spinner40.getSelectedItemPosition()); editor.commit(); myanswer[14] = spinner40.getSelectedItem().toString();break;
+                    editor.putInt("40",spinner40.getSelectedItemPosition()); editor.commit();
+                    myanswer[14] = spinner40.getSelectedItem().toString();break;
                 case R.id.spinner41:
-                    editor.putInt("41",spinner41.getSelectedItemPosition()); editor.commit(); myanswer[15] = spinner41.getSelectedItem().toString();break;
+                    editor.putInt("41",spinner41.getSelectedItemPosition()); editor.commit();
+                    myanswer[15] = spinner41.getSelectedItem().toString();break;
                 case R.id.spinner42:
-                    editor.putInt("42",spinner42.getSelectedItemPosition()); editor.commit(); myanswer[16] = spinner42.getSelectedItem().toString();break;
+                    editor.putInt("42",spinner42.getSelectedItemPosition()); editor.commit();
+                    myanswer[16] = spinner42.getSelectedItem().toString();break;
                 case R.id.spinner43:
-                    editor.putInt("43",spinner43.getSelectedItemPosition()); editor.commit(); myanswer[17] = spinner43.getSelectedItem().toString();break;
+                    editor.putInt("43",spinner43.getSelectedItemPosition()); editor.commit();
+                    myanswer[17] = spinner43.getSelectedItem().toString();break;
                 case R.id.spinner44:
-                    editor.putInt("44",spinner44.getSelectedItemPosition()); editor.commit(); myanswer[18] = spinner44.getSelectedItem().toString();break;
+                    editor.putInt("44",spinner44.getSelectedItemPosition()); editor.commit();
+                    myanswer[18] = spinner44.getSelectedItem().toString();break;
                 case R.id.spinner45:
-                    editor.putInt("45",spinner45.getSelectedItemPosition()); editor.commit(); myanswer[19] = spinner45.getSelectedItem().toString();break;
+                    editor.putInt("45",spinner45.getSelectedItemPosition()); editor.commit();
+                    myanswer[19] = spinner45.getSelectedItem().toString();break;
 
                 case R.id.spinner46:
-                    editor.putInt("46",spinner46.getSelectedItemPosition()); editor.commit(); myanswer[20] = spinner46.getSelectedItem().toString();break;
+                    editor.putInt("46",spinner46.getSelectedItemPosition()); editor.commit();
+                    myanswer[20] = spinner46.getSelectedItem().toString();break;
                 case R.id.spinner47:
-                    editor.putInt("47",spinner47.getSelectedItemPosition()); editor.commit(); myanswer[21] = spinner47.getSelectedItem().toString();break;
+                    editor.putInt("47",spinner47.getSelectedItemPosition()); editor.commit();
+                    myanswer[21] = spinner47.getSelectedItem().toString();break;
                 case R.id.spinner48:
-                    editor.putInt("48",spinner48.getSelectedItemPosition()); editor.commit(); myanswer[22] = spinner48.getSelectedItem().toString();break;
+                    editor.putInt("48",spinner48.getSelectedItemPosition()); editor.commit();
+                    myanswer[22] = spinner48.getSelectedItem().toString();break;
                 case R.id.spinner49:
-                    editor.putInt("49",spinner49.getSelectedItemPosition()); editor.commit(); myanswer[23] = spinner49.getSelectedItem().toString();break;
+                    editor.putInt("49",spinner49.getSelectedItemPosition()); editor.commit();
+                    myanswer[23] = spinner49.getSelectedItem().toString();break;
                 case R.id.spinner50:
-                    editor.putInt("50",spinner50.getSelectedItemPosition()); editor.commit(); myanswer[24] = spinner50.getSelectedItem().toString();break;
+                    editor.putInt("50",spinner50.getSelectedItemPosition()); editor.commit();
+                    myanswer[24] = spinner50.getSelectedItem().toString();break;
 
                 case R.id.spinner51:
-                    editor.putInt("51",spinner51.getSelectedItemPosition()); editor.commit(); myanswer[25] = spinner51.getSelectedItem().toString();break;
+                    editor.putInt("51",spinner51.getSelectedItemPosition()); editor.commit();
+                    myanswer[25] = spinner51.getSelectedItem().toString();break;
                 case R.id.spinner52:
-                    editor.putInt("52",spinner52.getSelectedItemPosition()); editor.commit(); myanswer[26] = spinner52.getSelectedItem().toString();break;
+                    editor.putInt("52",spinner52.getSelectedItemPosition()); editor.commit();
+                    myanswer[26] = spinner52.getSelectedItem().toString();break;
                 case R.id.spinner53:
-                    editor.putInt("53",spinner53.getSelectedItemPosition()); editor.commit(); myanswer[27] = spinner53.getSelectedItem().toString();break;
+                    editor.putInt("53",spinner53.getSelectedItemPosition()); editor.commit();
+                    myanswer[27] = spinner53.getSelectedItem().toString();break;
                 case R.id.spinner54:
-                    editor.putInt("54",spinner54.getSelectedItemPosition()); editor.commit(); myanswer[28] = spinner54.getSelectedItem().toString();break;
+                    editor.putInt("54",spinner54.getSelectedItemPosition()); editor.commit();
+                    myanswer[28] = spinner54.getSelectedItem().toString();break;
                 case R.id.spinner55:
-                    editor.putInt("55",spinner55.getSelectedItemPosition()); editor.commit(); myanswer[29] = spinner55.getSelectedItem().toString();break;
+                    editor.putInt("55",spinner55.getSelectedItemPosition()); editor.commit();
+                    myanswer[29] = spinner55.getSelectedItem().toString();break;
                 default:
                     break;
             }
@@ -346,6 +379,13 @@ public class ExamActivity extends Activity {
     public void button_putin_onclick(View view){
         dialog_answercard.dismiss();
         paper = context.getSharedPreferences(STORE_NAME_0,0);
+
+        editor.remove("26").remove("27").remove("28").remove("29").remove("30")
+               .remove("31").remove("32").remove("33").remove("34").remove("35")
+               .remove("36").remove("37").remove("38").remove("39").remove("40")
+               .remove("41").remove("42").remove("43").remove("44").remove("45")
+               .remove("46").remove("47").remove("48").remove("49").remove("50")
+               .remove("51").remove("52").remove("53").remove("54").remove("55").commit();
 
         List<String[]> errorlist = new ArrayList<>();
         String[] answer = (mypaper.getquestion_0().getanswer()+"|"+mypaper.getquestion_1().getanswer()+"|"+mypaper.getquestion_2().getanswer()+"|"+mypaper.getquestion_3().getanswer()).split("\\|");//字符串有问题
@@ -365,6 +405,8 @@ public class ExamActivity extends Activity {
         for (int i = 0; i < errorlist.size(); i++){
             output.append(ToSBC.dbc2sbc(errorlist.get(i)[0]+".|"+errorlist.get(i)[1]+"   |"+errorlist.get(i)[2])+"\n");
         }
+        float score = (float) errorlist.size() / answer.length * 100;
+        output.append("正确率:"+Float.toString(100-score)+"%");
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
@@ -383,6 +425,33 @@ public class ExamActivity extends Activity {
         String myerrorlist = gson.toJson(errorlist);
         editor.putString("errorlist",myerrorlist).commit();
         Log.e("errorlist",myerrorlist);
+
+        String myanswerjson = gson.toJson(myanswer);
+
+        HistoryPaper historyPaper = new HistoryPaper();
+        historyPaper.setname(paper.getString("papername","unknow"));
+        historyPaper.settype(mypaper.gettype());
+        historyPaper.setdatetime(mypaper.getdatatime());
+        historyPaper.setquestion_0_id(mypaper.getquestion_0().getid());
+        historyPaper.setquestion_1_id(mypaper.getquestion_1().getid());
+        historyPaper.setquestion_2_id(mypaper.getquestion_2().getid());
+        historyPaper.setquestion_3_id(mypaper.getquestion_3().getid());
+
+        String historypaper = gson.toJson(historyPaper);
+
+        if(!paper.getString("errorlist","").equals("")){
+            try {
+                String paperdata = "openid=" + URLEncoder.encode(user_info.getString("User_openid", ""), "UTF-8")
+                        + "&historypaper=" + URLEncoder.encode(historypaper, "UTF-8")
+                        + "&myanswerjson=" + myanswerjson;
+                Log.e("paperdata",paperdata);
+                HttpPostUtil.send_data(0, paperdata, "Save_papermap", context, handler);
+
+                editor.clear().commit();
+            }catch (Exception e){
+                Log.e("sendpapererror--",e.toString());
+            }
+        }
     }
 
 //----------------------------------↓弹框选试卷名----------------------------------------------------------------------------
@@ -442,13 +511,12 @@ public class ExamActivity extends Activity {
         //上传userinfo
         String papername = spinner.getSelectedItem().toString();
         address = "http://"+IP+":8080/FatWhite_Server/PapersServer?paper="+papername+"&type="+user_info.getString("type","cet4");
-        editor.putString("papername",papername);
+        editor.putString("papername",papername).commit();
         textViewpapername.setText(papername);
 
         MyTask mTask = new MyTask();
         mTask.execute();
 
-        editor.commit();
         dialog_setting.dismiss();
     }
 
@@ -499,4 +567,3 @@ public class ExamActivity extends Activity {
         }
     }
 }
-

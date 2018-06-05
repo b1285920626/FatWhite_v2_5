@@ -26,8 +26,8 @@ public class HttpPostUtil {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
 
-            connection.setReadTimeout(3000);
-            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setUseCaches(false);

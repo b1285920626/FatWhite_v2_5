@@ -110,6 +110,7 @@ public class LoginActivity extends Activity {
                 Log.v("TAG", "---"+response.toString());
                 openidString = ((JSONObject) response).getString("openid");
                 mTencent.setOpenId(openidString);
+                editor.clear().commit();
                 editor.putString("User_openid",openidString);
                 editor.commit();
 
@@ -219,7 +220,7 @@ public class LoginActivity extends Activity {
         editor.commit();
         dialog_setting.dismiss();
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);//加个单词量测试界面
         startActivity(intent);
         LoginActivity.this.finish();
     }

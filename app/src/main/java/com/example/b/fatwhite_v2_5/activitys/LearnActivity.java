@@ -2,24 +2,24 @@ package com.example.b.fatwhite_v2_5.activitys;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.view.Window;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.R;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.LearnCheckFragment;
 import com.example.b.fatwhite_v2_5.fragment.LearnOptionsFragment;
 import com.example.b.fatwhite_v2_5.model.HistoryWord;
-import com.example.b.fatwhite_v2_5.model.Userinfo;
+import com.example.b.fatwhite_v2_5.model.User_rate;
 import com.example.b.fatwhite_v2_5.model.Word;
+import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Locale;
@@ -36,7 +36,15 @@ public class LearnActivity extends FragmentActivity {
     LearnCheckFragment learnCheckFragment = new LearnCheckFragment();
     Fragment current_fragment =new Fragment();
 
-//    Userinfo userinfo = new Userinfo();
+    String STORE_NAME = "User_info";
+    SharedPreferences user_info;
+    SharedPreferences.Editor editor;
+
+    User_rate user_rate;
+
+    Gson gson = new Gson();
+
+//------------------------------------------初始化-----------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +67,6 @@ public class LearnActivity extends FragmentActivity {
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadtodayWords();
-//        userinfo = localDB.load_Userinfo();
- //       userinfo.set_User_rate(0);
 
         FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_layout,learnCheckFragment);
@@ -69,14 +75,32 @@ public class LearnActivity extends FragmentActivity {
         transaction.commit();
 
         current_fragment = learnOptionsFragment;
+
+        user_info = getSharedPreferences(STORE_NAME, MODE_PRIVATE);
+        editor = user_info.edit();
+
+        String userratejson = user_info.getString("user_rate","");
+        if(userratejson.equals("")){
+            user_rate = new User_rate();
+        }else {
+            user_rate = gson.fromJson(userratejson,User_rate.class);
+        }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
         fill_word();
         fill_optionsfragment();
+        super.onResume();
     }
+
+    @Override
+    public void onBackPressed(){
+        editor.putString("user_rate",gson.toJson(user_rate)).commit();
+        super.onBackPressed();
+    }
+
+//------------------------------------------显示部分----------------------------------------------------------------------------
 
     //显示单词
     public void show_nextword(){
@@ -171,6 +195,8 @@ public class LearnActivity extends FragmentActivity {
         }
     }
 
+//--------------------------------------点击-------------------------------------------------------------------------------------------
+
     //单词点击发音
     public void read_current_word (View view){
         TextView current = (TextView) findViewById(R.id.current_word);
@@ -190,8 +216,16 @@ public class LearnActivity extends FragmentActivity {
                         todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
                         if(todayList.get(flag).get_thistimes() == 3) {//判断满4移出队列并放入历史表
                             localDB.saveHistoryWord(word2historyword(todayList.get(flag)));
+
+                            user_rate.settoday_rate();
+                            user_rate.setTail(todayList.get(flag).get_id());
+                            //新增
+
                             todayList.remove(flag);
-//                            userinfo.set_User_rate(userinfo.get_User_rate()+1);
+
+                            //周日下午新增
+                            flag--;
+                            editor.putString("user_rate",gson.toJson(user_rate)).commit();
                         }
                         show_nextword();
                         dialog.dismiss();
@@ -284,14 +318,6 @@ public class LearnActivity extends FragmentActivity {
         dialog.show();
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        localDB.saveUserinfo(userinfo);
-//        if (tts != null) {
-//            tts.shutdown();
-//        }
-//    }
 
     public void onBackPressed(View view){
         super.onBackPressed();
