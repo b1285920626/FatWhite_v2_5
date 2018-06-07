@@ -9,14 +9,11 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.R;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
-import com.example.b.fatwhite_v2_5.fragment.LearnCheckFragment2;
-import com.example.b.fatwhite_v2_5.fragment.LearnOptionsFragment;
 import com.example.b.fatwhite_v2_5.model.Word;
 
 import java.util.List;
@@ -28,10 +25,6 @@ public class FuxiActivity extends FragmentActivity {
     private LocalDB localDB;
     private int flag = 0;//第几个单词
     EditText editText;
-
-    LearnOptionsFragment learnOptionsFragment = new LearnOptionsFragment();
-    LearnCheckFragment2 learnCheckFragment = new LearnCheckFragment2();
-    Fragment current_fragment =new Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,47 +47,41 @@ public class FuxiActivity extends FragmentActivity {
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadtodayWords();
+        todayList.subList(20,todayList.size()).clear();
 
-        FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_layout_f,learnCheckFragment);
-        transaction.commit();
-
-        current_fragment = learnOptionsFragment;
-    }
-
-    @Override
-    protected void onResume() {
+        editText = (EditText)findViewById(R.id.editText);
         fill_word();
-        super.onResume();
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//    }
 
     //显示单词
     public void show_nextword(){
-        flag++;
-        if(todayList.size() == 5){
+        if(todayList.size() == 0){
             //完成一组啦。。。
-        }
-        if((todayList.size() - flag) == 6) flag = 0;
-
-        Word word = todayList.get(flag);
-        if(word.get_thistimes() == 1||word.get_thistimes() == 3){
-            replacefragment(learnOptionsFragment);
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("恭喜：")//设置对话框的标题
+                    .setMessage("完成任务啦")//设置对话框的内容
+                    .setNeutralButton("OK", new DialogInterface.OnClickListener() {//设置对话框的按钮
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            FuxiActivity.this.finish();
+                        }
+                    }).create();
+            dialog.setCancelable(false);//点击外面没有用
+            dialog.show();
+        }else {
             fill_word();
-        }else{
-            replacefragment(learnCheckFragment);
-            fill_word();
-            tts.speak(word.get_word(),TextToSpeech.QUEUE_ADD,null,null);
         }
     }
 
-    //填充单词头部
+    //填充单词
     public void fill_word(){
         Word word = todayList.get(flag);
-
-        TextView current_word = (TextView)findViewById(R.id.current_word_f);
-
-        current_word.setText("再听一次");
-
         tts.speak(word.get_word(),TextToSpeech.QUEUE_ADD,null,null);
     }
 
@@ -113,15 +100,9 @@ public class FuxiActivity extends FragmentActivity {
         dialog.show();
     }
 
-    //替换碎片
-    private void replacefragment(Fragment fragment){
-        if(current_fragment != fragment){
-            FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
-            transaction.show(fragment);
-            transaction.hide(current_fragment);
-            current_fragment = fragment;
-            transaction.commit();
-        }
+    //清空输入
+    public void clear_edittext(View view){
+        editText.setText("");
     }
 
     //单词点击发音
@@ -130,15 +111,15 @@ public class FuxiActivity extends FragmentActivity {
         tts.speak(string,TextToSpeech.QUEUE_ADD,null,null);
     }
 
-    public void button_onclick(View view){
-        editText = (EditText)findViewById(R.id.editText);
+    public void buttonok_onclick(View view){
         String str = editText.getText().toString();
         if(str.equals(todayList.get(flag).get_word())){
-            show_nextword();
             editText.setText("");
-            todayList.remove(flag);
+            todayList.remove(todayList.get(flag));
+            show_nextword();
             Toast.makeText(this,"正确",Toast.LENGTH_SHORT).show();
         }else {
+            tts.speak(todayList.get(flag).get_word(),TextToSpeech.QUEUE_ADD,null,null);
             Toast.makeText(this,"错啦",Toast.LENGTH_SHORT).show();
         }
     }

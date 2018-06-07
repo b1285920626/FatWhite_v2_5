@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.b.fatwhite_v2_5.model.HistoryWord;
+import com.example.b.fatwhite_v2_5.model.NewWord;
 import com.example.b.fatwhite_v2_5.model.Word;
 
 import java.util.ArrayList;
@@ -49,30 +50,31 @@ public class LocalDB {
         }
     }
 
-    public void savePrivateWord(Word word){
+    public void savePrivateWord(NewWord word){
         if(word != null){
             ContentValues values = new ContentValues();
             values.put("word",word.get_word());
-            values.put("soundmark",word.get_soundmark());
+//            values.put("soundmark",word.get_soundmark());
             values.put("translation",word.get_translation());
-            values.put("sentence",word.get_sentence());
-            values.put("importance",word.get_word());
+//            values.put("sentence",word.get_sentence());
+//            values.put("importance",word.get_word());
             db.insert("Local_PrivateWord",null,values);
         }
     }
 
-    public List<Word> loadPrivateWord (){
-        List<Word> list = new ArrayList<Word>();
+    public List<NewWord> loadPrivateWord (){
+
+        List<NewWord> list = new ArrayList<NewWord>();
         Cursor cursor = db.query("Local_PrivateWord", null, null, null, null, null, "word");//SQLite的查询？？
         if(cursor.moveToFirst()){
             do{
-                Word word = new Word();
+                NewWord word = new NewWord();
                 word.set_id(cursor.getInt(cursor.getColumnIndex("id")));
                 word.set_word(cursor.getString(cursor.getColumnIndex("word")));
-                word.set_soundmark(cursor.getString(cursor.getColumnIndex("soundmark")));
+//                word.set_soundmark(cursor.getString(cursor.getColumnIndex("soundmark")));
                 word.set_translation(cursor.getString(cursor.getColumnIndex("translation")));
-                word.set_sentence(cursor.getString(cursor.getColumnIndex("sentence")));
-                word.set_importance(cursor.getInt(cursor.getColumnIndex("importance")));
+//                word.set_sentence(cursor.getString(cursor.getColumnIndex("sentence")));
+//                word.set_importance(cursor.getInt(cursor.getColumnIndex("importance")));
                 list.add(word);
             }while (cursor.moveToNext());
         }

@@ -47,27 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     Spinner historyPaperName;
 
-//---------------------------底部导航栏，系统生成---------------------------------------------------------------------------------------------
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    replacefragment(homeFragment);
-                    return true;
-                case R.id.navigation_dashboard:
-                    replacefragment(moreFragment);
-                    return true;
-                case R.id.navigation_notifications:
-                    replacefragment(settingFragment);
-                    return true;
-            }
-            return false;
-        }
-    };
 
 //---------------------------------初始化的几个重写了的函数-------------------------------------------------------------------------
 
@@ -221,5 +200,27 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(View view){
         super.onBackPressed();
     }
+
+//---------------------------底部导航栏，系统生成---------------------------------------------------------------------------------------------
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    replacefragment(homeFragment);
+                    return true;
+                case R.id.navigation_dashboard:
+                    replacefragment(moreFragment);
+                    return true;
+                case R.id.navigation_notifications:
+                    replacefragment(settingFragment);
+                    return true;
+            }
+            return false;
+        }
+    };
 
 }

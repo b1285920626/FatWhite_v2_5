@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.R;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
+import com.example.b.fatwhite_v2_5.model.NewWord;
 import com.example.b.fatwhite_v2_5.model.Word;
 import com.example.b.fatwhite_v2_5.util.HttpPostUtil;
 import com.google.gson.Gson;
@@ -34,7 +35,7 @@ public class NewWordActivity extends Activity {
     EditText editText_translation;
     AlertDialog dialog;
     LocalDB localDB;
-    List<Word> wordList = new ArrayList<Word>();
+    List<NewWord> wordList = new ArrayList<NewWord>();
     String[] data;
     Context context;
 
@@ -79,6 +80,7 @@ public class NewWordActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //我们需要的内容，跳转页面或显示详细信息 列表点击
+
                 AlertDialog dialog = new AlertDialog.Builder(context)
                         .setIcon(R.drawable.ic_notifications_black_24dp)//设置标题的图片
                         .setTitle(wordList.get(position).get_word())//设置对话框的标题
@@ -124,7 +126,7 @@ public class NewWordActivity extends Activity {
 //--------------------------------------保存新词-------------------------------------------------------------------------------
 
     public void button_add_onclick(View view){
-        Word word =new Word();
+        NewWord word =new NewWord();
         if( !TextUtils.isEmpty(editText_word.getText()) && !TextUtils.isEmpty(editText_translation.getText())){
             word.set_word(editText_word.getText().toString());
             word.set_translation(editText_translation.getText().toString());

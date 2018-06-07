@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 android:weightSum="3">
                 <TextView
-                    android:text="000"
+                    android:text="20"
                     android:id="@+id/textview_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
