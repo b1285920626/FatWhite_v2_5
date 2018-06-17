@@ -28,7 +28,7 @@
                     android:background="@color/colorPrimary"
                     android:onClick="onBackPressed"
                     android:src="@drawable/ic_action_arrow" />
-
+<!--
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -36,6 +36,14 @@
                     android:layout_weight="1"
                     android:background="?attr/colorPrimary"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
+-->
+                <TextView
+                    android:id="@+id/capacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="TextView" />
             </LinearLayout>
 
         </android.support.design.widget.AppBarLayout>
@@ -45,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="button_addnewword_onclick"
+            android:background="#22FFFFFF"
             android:text="添加" />
 
         <EditText

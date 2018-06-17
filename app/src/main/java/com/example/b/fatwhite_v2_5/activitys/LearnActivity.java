@@ -17,7 +17,6 @@ import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.LearnCheckFragment;
 import com.example.b.fatwhite_v2_5.fragment.LearnOptionsFragment;
 import com.example.b.fatwhite_v2_5.model.HistoryWord;
-import com.example.b.fatwhite_v2_5.model.User_rate;
 import com.example.b.fatwhite_v2_5.model.Word;
 import com.google.gson.Gson;
 
@@ -39,8 +38,6 @@ public class LearnActivity extends FragmentActivity {
     String STORE_NAME = "User_info";
     SharedPreferences user_info;
     SharedPreferences.Editor editor;
-
-    User_rate user_rate;
 
     Gson gson = new Gson();
 
@@ -78,25 +75,17 @@ public class LearnActivity extends FragmentActivity {
 
         user_info = getSharedPreferences(STORE_NAME, MODE_PRIVATE);
         editor = user_info.edit();
-
-        String userratejson = user_info.getString("user_rate","");
-        if(userratejson.equals("")){
-            user_rate = new User_rate();
-        }else {
-            user_rate = gson.fromJson(userratejson,User_rate.class);
-        }
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
         fill_word();
         fill_optionsfragment();
-        super.onResume();
     }
 
     @Override
     public void onBackPressed(){
-        editor.putString("user_rate",gson.toJson(user_rate)).commit();
         super.onBackPressed();
     }
 
@@ -214,18 +203,13 @@ public class LearnActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
-                        if(todayList.get(flag).get_thistimes() == 3) {//判断满4移出队列并放入历史表
+                        if(todayList.get(flag).get_thistimes() == 2) {//判断满4移出队列并放入历史表
                             localDB.saveHistoryWord(word2historyword(todayList.get(flag)));
-
-                            user_rate.settoday_rate();
-                            user_rate.setTail(todayList.get(flag).get_id());
                             //新增
-
                             todayList.remove(flag);
-
                             //周日下午新增
+                            editor.putInt("user_rate",user_info.getInt("user_rate",0)+1).commit();
                             flag--;
-                            editor.putString("user_rate",gson.toJson(user_rate)).commit();
                         }
                         show_nextword();
                         dialog.dismiss();

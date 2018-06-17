@@ -2,13 +2,15 @@
     <string name="app_name">FatWhite_v2_5</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">MoreThings</string>
-    <string name="title_notifications">Setting</string>
+    <string name="title_notifications">ExamPractice</string>
 
     <string name="options_A">A、%1$s</string>
     <string name="options_B">B、%1$s</string>
     <string name="options_C">C、%1$s</string>
     <string name="options_D">D、%1$s</string>
 
-    <string name="IP_2">"10.10.8.114"</string>
-    <string name="IP_1">"192.168.43.178"</string>
+    <string name="IP_2">"192.42.42.210"</string>
+    <string name="IP_1">"192.168.43.178"</string><!--手机热点-->
+
+    <integer name="list_maxnum">256</integer><!--生词本上限-->
 </resources>

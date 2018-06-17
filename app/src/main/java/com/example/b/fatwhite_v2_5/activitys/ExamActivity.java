@@ -140,6 +140,10 @@ public class ExamActivity extends Activity {
         firstTask.execute();
     }
 
+    public void onBackPressed(View view){
+        super.onBackPressed();
+    }
+
     Handler handler = new Handler(){
         public void handleMessage(Message message) {
             Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();

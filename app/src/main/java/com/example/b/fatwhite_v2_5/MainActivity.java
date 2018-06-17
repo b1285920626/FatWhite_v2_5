@@ -3,7 +3,7 @@ package com.example.b.fatwhite_v2_5;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,9 +12,11 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,10 +30,17 @@ import com.example.b.fatwhite_v2_5.db.LocalDB;
 import com.example.b.fatwhite_v2_5.fragment.HomeFragment;
 import com.example.b.fatwhite_v2_5.fragment.MoreFragment;
 import com.example.b.fatwhite_v2_5.fragment.SettingFragment;
+import com.example.b.fatwhite_v2_5.model.NewWord;
 import com.example.b.fatwhite_v2_5.util.DownloadWord;
+import com.example.b.fatwhite_v2_5.util.HttpPostUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private String type;
     private Spinner spinner;
 
     String STORE_NAME = "User_info";
@@ -46,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     Handler handler;
 
     Spinner historyPaperName;
+    String historyPapername;
+    Context context;
 
 
 //---------------------------------初始化的几个重写了的函数-------------------------------------------------------------------------
@@ -73,11 +84,15 @@ public class MainActivity extends AppCompatActivity {
         user_info = getSharedPreferences(STORE_NAME, MODE_PRIVATE);
         editor = user_info.edit();
 
+        context = MainActivity.this;
+
         handler=new Handler(){
             public void handleMessage(Message msg) {
                 switch (msg.arg1){
                     case 1:
                         Toast.makeText(MainActivity.this, "下载成功 ", Toast.LENGTH_SHORT).show();
+                        editor.putBoolean("downloadflag",false).commit();
+                        homeFragment.settextview_3(MainActivity.this,Integer.toString(localDB.loadWords().size() - localDB.loadhistoryWords().size()));
                         break;
                     case 0:
                         Toast.makeText(MainActivity.this, "下载失败 "+msg.obj.toString(), Toast.LENGTH_SHORT).show();
@@ -85,23 +100,51 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        //下载单词表
+        if(user_info.getBoolean("downloadflag",true)){
+            localDB.clearword();
+
+            String tablename = "word_"+user_info.getString("type","cet4");
+            DownloadWord downloadWord = new DownloadWord();
+            downloadWord.initargs(handler,MainActivity.this,tablename,localDB);
+            downloadWord.sendHttpGETRequest();
+        }
+
+        //下载历史试卷表
+        String data = "openid="+user_info.getString("User_openid","");
+        HttpPostUtil.send_data(1,data,"HistorypapernamelistServer",MainActivity.this,historyPaperNameHandler);
+        HttpPostUtil.send_data(1,data,"Get_newwordlist",MainActivity.this,newWordHandler);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        spinner = (Spinner)findViewById(R.id.spinner_type);
+//        spinner1 = (Spinner)findViewById(R.id.spinner_type);
+//        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                type = (String)spinner.getSelectedItem();
+//                editor.putString("type",type);
+//                editor.commit();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) { }
+//        });
+
+        spinner = settingFragment.getSpinner_historyPaperName(this);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                type = (String)spinner.getSelectedItem();
-                editor.putString("type",type);
-                editor.commit();
+                historyPapername = spinner.getSelectedItem().toString();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
     }
 
@@ -109,29 +152,42 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         homeFragment.settextview_3(this,Integer.toString(localDB.loadWords().size() - localDB.loadhistoryWords().size()));
         homeFragment.settextview_1(this,Integer.toString(20));
-        settingFragment.settextview(this,user_info.getString("User_name","未知用户"));
+        settingFragment.settextview(this,user_info.getString("User_name",user_info.getString("User_openid","未知用户")));
  //改成用那个的。。。
-//        homeFragment.settextview_2(this,Integer.toString(20-localDB.load_Userinfo().get_User_rate()));
+
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String nowdate = dateFormat.format( now );
+        if(user_info.getString("lastdate","").equals(nowdate)){
+            homeFragment.settextview_2(this,Integer.toString(20-user_info.getInt("user_rate",0)));
+        }else {
+            homeFragment.settextview_2(this,"20");
+            editor.putString("lastdate",nowdate).commit();
+            editor.putInt("user_rate",0).commit();
+        }
+
+
 //        replacefragment(homeFragment);
         super.onResume();
     }
 
 //----------------------------------一大堆按钮--------------------------------------------------------------------------------------------------
 
-    //下载按钮
-    public void Button_download_onClick(View view)
-    {
-        ProgressDialog pd = new ProgressDialog(MainActivity.this); // 显示进度对话框
-        pd.setMessage("下载中");
-        pd.show();
-
-        String tablename = "word_"+user_info.getString("type","cet4");
-        DownloadWord downloadWord = new DownloadWord();
-        downloadWord.initargs(handler,MainActivity.this,tablename,localDB);
-        downloadWord.sendHttpGETRequest();
-
-        pd.dismiss();
-    }
+//    //下载按钮
+//    public void Button_download_onClick(View view)
+//    {
+//        localDB.clearword();
+//        ProgressDialog pd = new ProgressDialog(MainActivity.this); // 显示进度对话框
+//        pd.setMessage("下载中");
+//        pd.show();
+//
+//        String tablename = "word_"+user_info.getString("type","cet4");
+//        DownloadWord downloadWord = new DownloadWord();
+//        downloadWord.initargs(handler,MainActivity.this,tablename,localDB);
+//        downloadWord.sendHttpGETRequest();
+//
+//        pd.dismiss();
+//    }
 
     //按钮点击事件//开始学习按钮
     public void Button_BeginLearn_onClick(View view){
@@ -153,9 +209,8 @@ public class MainActivity extends AppCompatActivity {
 
     //查看历史试卷
     public void Button_look_onClick(View view){
-        historyPaperName = settingFragment.getSpinner_historyPaperName(MainActivity.this);
         Intent intent = new Intent(MainActivity.this, HistoryPaperActivity.class);
-        intent.putExtra("paper_name", historyPaperName.getSelectedItem().toString());
+        intent.putExtra("paper_name", historyPapername);
         startActivity(intent);
     }
 
@@ -223,4 +278,33 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+//-------------------------Handler------------------------------------------------------------------------------------------------------
+    Handler historyPaperNameHandler = new Handler(){
+         public void handleMessage(Message msg) {
+             String[] namearray = msg.obj.toString().split("\\|");
+             ArrayAdapter<String> adapter=new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line,android.R.id.text1,namearray);
+             spinner.setAdapter(adapter);
+         }
+    };
+
+    //生词本
+    Handler newWordHandler = new Handler(){
+        public void handleMessage(Message msg) {
+            //接收并保存list
+            localDB.clearnewword();
+            try {
+                String newwordlistjson = msg.obj.toString();
+                List<NewWord> wordList = new Gson().fromJson(newwordlistjson, new TypeToken<List<NewWord>>(){}.getType());
+
+                if(wordList.size() > 0){
+                    for(int i = 0; i < wordList.size(); i++){
+                        localDB.savePrivateWord(wordList.get(i));
+                    }
+                }
+
+            }catch (Exception e){
+                Log.e("getnewword",e.toString());
+            }
+        }
+    };
 }

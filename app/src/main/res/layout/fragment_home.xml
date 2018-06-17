@@ -32,12 +32,13 @@
                     android:layout_weight="1"
                     android:textSize="55sp"
                     android:gravity="center"/>
+
                 <TextView
-                    android:text="今天要背"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:gravity="center_horizontal"/>
+                    android:gravity="center_horizontal"
+                    android:text="今天目标" />
             </LinearLayout>
 
             <LinearLayout
@@ -94,6 +95,8 @@
             android:layout_weight="0"
             android:textSize="30dp"
             android:layout_gravity="center"
+            android:background="#22FFFFFF"
+            android:layout_margin="3dp"
             android:id="@+id/button_beginlearn"
             android:onClick="Button_BeginLearn_onClick"/>
 
@@ -104,6 +107,8 @@
             android:layout_weight="0"
             android:textSize="30dp"
             android:layout_gravity="center"
+            android:background="#22FFFFFF"
+            android:layout_margin="3dp"
             android:id="@+id/button_beginfuxi"
             android:onClick="Button_Beginfuxi_onClick"/>
 

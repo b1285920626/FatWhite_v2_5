@@ -107,11 +107,11 @@ public class LocalDB {
         try {
             Cursor cursor = db.query("History_Word", null, null, null, null, null, null);//SQLite的查询？？
             if(cursor.moveToFirst()){
-                int theid;
+                String t;
                 do{
-                    theid = cursor.getInt(cursor.getColumnIndex("word_id"));
-                    for(int i = 0;i <= theid; i++ ){
-                        if(list.get(i).get_id() == theid) list.remove(i);
+                    t = cursor.getString(cursor.getColumnIndex("word"));
+                    for(int i = 0; i < list.size(); i++ ){
+                        if(list.get(i).get_word().equals(t)) list.remove(i);
                     }
                 }while (cursor.moveToNext());
             }
@@ -155,7 +155,46 @@ public class LocalDB {
             values.put("importance",word.get_word());
             values.put("times",word.get_times());
             values.put("passdays",word.get_passdays());
-            db.insert("Local_Word",null,values);
+            db.insert("History_Word",null,values);
         }
     }
+
+    public int delete(String str) {
+        //执行删除操作
+        int count = 0;
+        try {
+            //返回被删除的行数
+            count = db.delete("Local_PrivateWord", "word='"+str+"'", null);
+        } catch (Exception e) {
+            Log.i("db-del-e", e.toString());
+        }
+        return count;
+    }
+
+    public int clearnewword(){
+        //清空表
+        int count = 0;
+        try {
+            //返回被删除的行数
+            count = db.delete("Local_PrivateWord", null, null);
+        } catch (Exception e) {
+            Log.i("db-del-e", e.toString());
+        }
+
+        return count;
+    }
+
+    public int clearword(){
+        //清空表
+        int count = 0;
+        try {
+            //返回被删除的行数
+            count = db.delete("Local_Word", null, null);
+        } catch (Exception e) {
+            Log.i("db-del-e", e.toString());
+        }
+
+        return count;
+    }
+
 }

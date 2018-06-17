@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,9 +30,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="button_answercard_onclick"
-                    android:background="?attr/colorPrimary"
-                    android:text="答题卡" />
+                    android:onClick="button_answer_onclick"
+                    android:background="@color/colorPrimary"
+                    android:text="我的答案" />
             </LinearLayout>
 
         </android.support.design.widget.AppBarLayout>
@@ -50,7 +49,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView_papername"
+                    android:id="@+id/h_textView_papername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -61,7 +60,7 @@
                     android:layout_height="20dp" />
 
                 <TextView
-                    android:id="@+id/exam_textView0"
+                    android:id="@+id/h_exam_textView0"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -71,7 +70,7 @@
                     android:layout_height="20dp" />
 
                 <TextView
-                    android:id="@+id/exam_textView1"
+                    android:id="@+id/h_exam_textView1"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -82,7 +81,7 @@
                     android:layout_height="20dp" />
 
                 <TextView
-                    android:id="@+id/exam_textView2"
+                    android:id="@+id/h_exam_textView2"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -93,7 +92,7 @@
                     android:layout_height="20dp" />
 
                 <TextView
-                    android:id="@+id/exam_textView3"
+                    android:id="@+id/h_exam_textView3"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"

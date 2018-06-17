@@ -2,15 +2,18 @@ package com.example.b.fatwhite_v2_5.activitys;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -60,8 +63,8 @@ public class LoginActivity extends Activity {
     //    SharedPreferences.Editor editor = user_info.edit();
     //笔记end
 
-//    EditText editText_userid;
-//    EditText editText_userpw;
+    EditText editText_userid;
+    EditText editText_userpw;
 
 //---------------------------------------初始化--------------------------------------------------------------------------------------------
     @Override
@@ -75,8 +78,8 @@ public class LoginActivity extends Activity {
         user_info = getSharedPreferences(STORE_NAME, MODE_PRIVATE);
         editor = user_info.edit();
 
-//        editText_userid = (EditText)findViewById(R.id.editText_userid);
-//        editText_userpw = (EditText)findViewById(R.id.editText_userpw);
+        editText_userid = (EditText)findViewById(R.id.editText_userid);
+        editText_userpw = (EditText)findViewById(R.id.editText_userpw);
     }
 
 
@@ -110,7 +113,6 @@ public class LoginActivity extends Activity {
                 Log.v("TAG", "---"+response.toString());
                 openidString = ((JSONObject) response).getString("openid");
                 mTencent.setOpenId(openidString);
-                editor.clear().commit();
                 editor.putString("User_openid",openidString);
                 editor.commit();
 
@@ -225,22 +227,56 @@ public class LoginActivity extends Activity {
         LoginActivity.this.finish();
     }
 
-//    //原登录按钮
-//    public void buttonn_login_onclick(View view) {
-//        ProgressDialog pd = new ProgressDialog(context); // 显示进度对话框
-//        pd.setMessage("登录中...");
-//        pd.show();
-//
-//        String id = editText_userid.getText().toString();
-//        String pw = editText_userpw.getText().toString();
-//        if( !TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw)) {
+    //原登录按钮
+    public void buttonn_login_onclick(View view) {
+        //测试后删除↓
+//        Intent intent = new Intent(context, MainActivity.class);
+//        startActivity(intent);
+//        LoginActivity.this.finish();
+        //测试后删除↑
+
+        ProgressDialog pd = new ProgressDialog(context); // 显示进度对话框
+        pd.setMessage("登录中...");
+        pd.show();
+
+        String id = editText_userid.getText().toString();
+        String pw = editText_userpw.getText().toString();
+        String data = "user_id=" + id + "&password=" + pw;
+        String ad = "LoginServer2";
+        if( !TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw)) {
 //            sendHttpPOSTRequest(editText_userid.getText().toString(), editText_userpw.getText().toString());
-//            pd.dismiss();
-//        }else {
-//            Toast.makeText(this,"有空的啊...",Toast.LENGTH_SHORT).show();
-//            pd.dismiss();
-//        }
-//    }
+            openidString = id;
+            HttpPostUtil.send_data(2,data,ad,context,handler1);
+            pd.dismiss();
+        }else {
+            Toast.makeText(this,"有空的啊...",Toast.LENGTH_SHORT).show();
+            pd.dismiss();
+        }
+    }
+
+    public void button_signup_onclick(View view){
+        Intent intent = new Intent(context, SignupActivity.class);
+        startActivity(intent);
+    }
+
+    private Handler handler1 = new Handler() {
+        public void handleMessage(Message message) {
+            Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
+            if(message.arg1 == 2){
+                if(!message.obj.toString().equals("failed")){
+                    editor.putString("User_openid",openidString);
+                    editor.putString("type",message.obj.toString());
+                    editor.commit();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                }
+                Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 //
 //    private Handler handler=new Handler(){
 //        public void handleMessage(Message msg) {

@@ -28,4 +28,5 @@ public class HistoryPaper {
 
     public void setquestion_3_id (int question_3_id) {this.question_3_id = question_3_id;}
     public int getquestion_3_id () {return question_3_id; }
+
 }

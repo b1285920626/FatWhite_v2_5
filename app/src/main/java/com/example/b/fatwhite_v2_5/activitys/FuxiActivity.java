@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.b.fatwhite_v2_5.R;
 import com.example.b.fatwhite_v2_5.db.LocalDB;
+import com.example.b.fatwhite_v2_5.model.HistoryWord;
 import com.example.b.fatwhite_v2_5.model.Word;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Locale;
 
 public class FuxiActivity extends FragmentActivity {
     TextToSpeech tts;
-    private List<Word> todayList;
+    private List<HistoryWord> todayList;
     private LocalDB localDB;
     private int flag = 0;//第几个单词
     EditText editText;
@@ -46,8 +47,10 @@ public class FuxiActivity extends FragmentActivity {
         tts.setSpeechRate(1.4f);
 
         localDB = LocalDB.getInstance(this);
-        todayList = localDB.loadtodayWords();
-        todayList.subList(20,todayList.size()).clear();
+        todayList = localDB.loadhistoryWords();
+        if(todayList.size() > 20){
+            todayList.subList(20,todayList.size()).clear();
+        }
 
         editText = (EditText)findViewById(R.id.editText);
         fill_word();
@@ -81,7 +84,7 @@ public class FuxiActivity extends FragmentActivity {
 
     //填充单词
     public void fill_word(){
-        Word word = todayList.get(flag);
+        HistoryWord word = todayList.get(flag);
         tts.speak(word.get_word(),TextToSpeech.QUEUE_ADD,null,null);
     }
 

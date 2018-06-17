@@ -20,14 +20,7 @@
             android:layout_margin="8dp"
             android:text="生词本" />
 
-        <Button
-            android:id="@+id/button_newexam"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#22FFFFFF"
-            android:layout_margin="8dp"
-            android:onClick="button_newexam_onclick"
-            android:text="做试题" />
+
 
         <Button
             android:layout_width="match_parent"
@@ -44,7 +37,7 @@
             android:background="#22FFFFFF"
             android:layout_margin="8dp"
             android:text="有道在线词典" />
-
+<!--
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +45,7 @@
             android:background="#22FFFFFF"
             android:layout_margin="8dp"
             android:text="BBC新闻" />
-
+-->
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
