@@ -96,8 +96,22 @@ public class LearnActivity extends FragmentActivity {
         flag++;
         if(todayList.size() == 5){
             //完成一组啦。。。
-             }
-        if((todayList.size() - flag) == 6) flag = 0;
+            AlertDialog dialog = new AlertDialog.Builder(LearnActivity.this)
+                    .setTitle("恭喜：")//设置对话框的标题
+                    .setMessage("完成任务啦")//设置对话框的内容
+                    .setNeutralButton("OK", new DialogInterface.OnClickListener() {//设置对话框的按钮
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            onBackPressed();
+                        }
+                    }).create();
+            dialog.setCancelable(false);//点击外面没有用
+            dialog.show();
+
+            return;
+            }
+        if((todayList.size() - flag) == 5) flag = 0;
 
         Word word = todayList.get(flag);
         if(word.get_thistimes() == 0||word.get_thistimes() == 2){
@@ -135,7 +149,7 @@ public class LearnActivity extends FragmentActivity {
         int j = 0;
         int k;
         do{
-            k = random.nextInt(25);
+            k = random.nextInt(todayList.size());
             boolean tap = true;
             for(int n = 0; n < j; n++){ if(a[n] == k) tap = false; }
             if(flag != k && tap) {a[j] = k;j++; }
@@ -203,7 +217,7 @@ public class LearnActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         todayList.get(flag).set_thistimes(todayList.get(flag).get_thistimes()+1);
-                        if(todayList.get(flag).get_thistimes() == 2) {//判断满4移出队列并放入历史表
+                        if(todayList.get(flag).get_thistimes() == 4) {//判断满4移出队列并放入历史表
                             localDB.saveHistoryWord(word2historyword(todayList.get(flag)));
                             //新增
                             todayList.remove(flag);
@@ -211,8 +225,8 @@ public class LearnActivity extends FragmentActivity {
                             editor.putInt("user_rate",user_info.getInt("user_rate",0)+1).commit();
                             flag--;
                         }
-                        show_nextword();
                         dialog.dismiss();
+                        show_nextword();
                     }
                 })
                 .setPositiveButton("记错了", new DialogInterface.OnClickListener() {//设置对话框的按钮

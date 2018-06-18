@@ -113,6 +113,9 @@ public class LoginActivity extends Activity {
                 Log.v("TAG", "---"+response.toString());
                 openidString = ((JSONObject) response).getString("openid");
                 mTencent.setOpenId(openidString);
+                if(!user_info.getString("User_openid","").equals(openidString)){
+                    editor.putBoolean("downloadflag",true).commit();
+                }
                 editor.putString("User_openid",openidString);
                 editor.commit();
 
@@ -261,17 +264,20 @@ public class LoginActivity extends Activity {
 
     private Handler handler1 = new Handler() {
         public void handleMessage(Message message) {
-            Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
             if(message.arg1 == 2){
                 if(!message.obj.toString().equals("failed")){
+                    if(!user_info.getString("User_openid","").equals(openidString)){
+                        editor.putBoolean("downloadflag",true).commit();
+                    }
                     editor.putString("User_openid",openidString);
                     editor.putString("type",message.obj.toString());
                     editor.commit();
+                    Toast.makeText(context,"欢迎"+user_info.getString("User_openid",""), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, MainActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
                 }
-                Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(context,message.obj.toString(), Toast.LENGTH_SHORT).show();
             }

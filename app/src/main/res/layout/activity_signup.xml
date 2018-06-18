@@ -58,6 +58,7 @@
                     android:id="@+id/newUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/int_xianzhi"
                     android:ems="15" />
 
             </TableRow>

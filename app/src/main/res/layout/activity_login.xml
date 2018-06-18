@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,7 +10,9 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/background"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <Space
             android:layout_width="match_parent"
@@ -56,22 +59,24 @@
             android:layout_width="292dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
                 android:background="@color/button_color"
                 android:onClick="button_signup_onclick"
                 android:text="注册"
                 android:textSize="22sp" />
 
+            <Space
+                android:layout_width="4dp"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/button_login"
                 android:layout_width="218dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/button_color"
                 android:onClick="buttonn_login_onclick"
                 android:text="登录"
@@ -82,8 +87,8 @@
         <LinearLayout
             android:layout_width="292dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp">
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_qq_login"

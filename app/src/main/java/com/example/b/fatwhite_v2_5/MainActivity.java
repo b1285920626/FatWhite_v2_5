@@ -111,10 +111,11 @@ public class MainActivity extends AppCompatActivity {
             downloadWord.sendHttpGETRequest();
         }
 
-        //下载历史试卷表
-        String data = "openid="+user_info.getString("User_openid","");
-        HttpPostUtil.send_data(1,data,"HistorypapernamelistServer",MainActivity.this,historyPaperNameHandler);
-        HttpPostUtil.send_data(1,data,"Get_newwordlist",MainActivity.this,newWordHandler);
+        //验证是否是同一个人
+        if(!user_info.getString("User_openid","").equals(user_info.getString("lastuser",""))){
+            editor.putString("lastuser",user_info.getString("User_openid","")).commit();
+            localDB.clearhisword();
+        }
     }
 
     @Override
@@ -166,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("user_rate",0).commit();
         }
 
+        //下载历史试卷表
+        String data = "openid="+user_info.getString("User_openid","");
+        HttpPostUtil.send_data(1,data,"HistorypapernamelistServer",MainActivity.this,historyPaperNameHandler);
+        HttpPostUtil.send_data(1,data,"Get_newwordlist",MainActivity.this,newWordHandler);
+
 
 //        replacefragment(homeFragment);
         super.onResume();
@@ -173,21 +179,21 @@ public class MainActivity extends AppCompatActivity {
 
 //----------------------------------一大堆按钮--------------------------------------------------------------------------------------------------
 
-//    //下载按钮
-//    public void Button_download_onClick(View view)
-//    {
+    //下载按钮，已弃用
+    public void Button_download_onClick(View view)
+    {
 //        localDB.clearword();
 //        ProgressDialog pd = new ProgressDialog(MainActivity.this); // 显示进度对话框
 //        pd.setMessage("下载中");
 //        pd.show();
-//
-//        String tablename = "word_"+user_info.getString("type","cet4");
-//        DownloadWord downloadWord = new DownloadWord();
-//        downloadWord.initargs(handler,MainActivity.this,tablename,localDB);
-//        downloadWord.sendHttpGETRequest();
-//
+
+        String tablename = "word_"+user_info.getString("type","cet4");
+        DownloadWord downloadWord = new DownloadWord();
+        downloadWord.initargs(handler,MainActivity.this,tablename,localDB);
+        downloadWord.sendHttpGETRequest();
+
 //        pd.dismiss();
-//    }
+    }
 
     //按钮点击事件//开始学习按钮
     public void Button_BeginLearn_onClick(View view){

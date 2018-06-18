@@ -48,6 +48,12 @@ public class FuxiActivity extends FragmentActivity {
 
         localDB = LocalDB.getInstance(this);
         todayList = localDB.loadhistoryWords();
+        //去除次数大于5的词
+//        for (int i = todayList.size(); i > 0; i--){
+//            if (todayList.get(i).get_times() > 4) {
+//                todayList.remove(i);
+//            }
+//        }
         if(todayList.size() > 20){
             todayList.subList(20,todayList.size()).clear();
         }
@@ -118,6 +124,12 @@ public class FuxiActivity extends FragmentActivity {
         String str = editText.getText().toString();
         if(str.equals(todayList.get(flag).get_word())){
             editText.setText("");
+
+            //更新次数，未测试
+            HistoryWord word = todayList.get(flag);
+            word.set_times(word.get_times());
+            localDB.updatehistory(word);
+
             todayList.remove(todayList.get(flag));
             show_nextword();
             Toast.makeText(this,"正确",Toast.LENGTH_SHORT).show();

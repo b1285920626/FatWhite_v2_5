@@ -197,4 +197,33 @@ public class LocalDB {
         return count;
     }
 
+    public int clearhisword(){
+        //清空表
+        int count = 0;
+        try {
+            //返回被删除的行数
+            count = db.delete("History_Word", null, null);
+        } catch (Exception e) {
+            Log.i("db-del-e", e.toString());
+        }
+
+        return count;
+    }
+
+    public void updatehistory(HistoryWord word){
+        if(word != null){
+            ContentValues values = new ContentValues();
+            values.put("word_id",word.get_word_id());
+            values.put("word",word.get_word());
+            values.put("soundmark",word.get_soundmark());
+            values.put("translation",word.get_translation());
+            values.put("sentence",word.get_sentence());
+            values.put("importance",word.get_word());
+            values.put("times",word.get_times());
+            values.put("passdays",word.get_passdays());
+            db.update("History_Word",values,"word = ?",new String[]{word.get_word()});
+        }
+    }
+
+
 }

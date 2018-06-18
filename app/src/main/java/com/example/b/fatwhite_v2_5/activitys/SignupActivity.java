@@ -83,4 +83,8 @@ public class SignupActivity extends Activity {
             }
         }
     };
+
+    public void onBackPressed(View view){
+        super.onBackPressed();
+    }
 }

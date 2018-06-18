@@ -193,7 +193,8 @@ public class NewWordActivity extends Activity {
         refreshCapacity();
     }
 //----------------------------------------退出时上传----------------------------------------------------------------------------------------------------------------
-    public void onBackPressed(View view){
+    @Override
+    public void onBackPressed(){
         //上传
         Gson gson = new Gson();
         String wordlist = gson.toJson(wordList);
